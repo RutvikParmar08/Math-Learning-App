@@ -58,18 +58,28 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
   }
   //#endregion
 
-  //#region Load Alarms , Add Alarm and Delete Alarm
+  //#region Load Alarms, Add Alarm, and Delete Alarm
   void _loadAlarms() {
     setState(() {
-      alarms = LocalNotifications.getActiveAlarms();
+      alarms = LocalNotifications.getActiveAlarms()
+          .where((alarm) => alarm['type'] != 'four_hour')
+          .toList();
     });
   }
 
   Future<void> _addAlarm() async {
-    await _pickTime();
+    // Step 1: Pick time and stop if user cancels
+    final pickedTimeResult = await _pickTime();
+    if (!pickedTimeResult) {
+      return; // Stop if user cancels time picker
+    }
 
     if (mounted) {
-      await _checkAndShowDialog();
+      // Step 2: Check permissions and stop if user cancels
+      final permissionGranted = await _checkAndShowDialog();
+      if (!permissionGranted) {
+        return; // Stop if user cancels permission dialog
+      }
 
       String alarmBody = _bodyController.text.trim();
       if (alarmBody.isEmpty) {
@@ -156,9 +166,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
           ),
           actions: [
             TextButton(
-              onPressed: () => {
-                Navigator.of(context).pop(),
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Cancel',
                 style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
@@ -227,12 +235,14 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
   //#endregion
 
   //#region Check and show dialog
-  Future<void> _checkAndShowDialog() async {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    final colorScheme = _getColorScheme(themeProvider.isNightModeOn);
-
+  Future<bool> _checkAndShowDialog() async {
     if (await Permission.scheduleExactAlarm.isDenied) {
-      showDialog(
+      final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+      final colorScheme = _getColorScheme(themeProvider.isNightModeOn);
+
+      bool permissionGranted = false;
+
+      await showDialog(
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: colorScheme.surface,
@@ -253,7 +263,10 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context);
+                permissionGranted = false; // User canceled
+              },
               child: Text(
                 'Later',
                 style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
@@ -263,6 +276,8 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
               onPressed: () async {
                 Navigator.pop(context);
                 await openAppSettings();
+                // Check if permission was granted after opening settings
+                permissionGranted = await Permission.scheduleExactAlarm.isGranted;
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.primary,
@@ -274,12 +289,15 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
           ],
         ),
       );
+
+      return permissionGranted;
     }
+    return true; // Permission already granted
   }
   //#endregion
 
   //#region Time Picker
-  Future<void> _pickTime() async {
+  Future<bool> _pickTime() async {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
 
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -304,11 +322,11 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
       setState(() {
         _selectedTime = pickedTime;
       });
+      return true; // Time was picked
     }
+    return false; // User canceled
   }
   //#endregion
-
-
 
   //#region Page UI
   @override
@@ -322,6 +340,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
         final isLandscape = screenWidth > screenHeight;
 
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: colorScheme.background,
           appBar: AppBar(
             elevation: 0,
@@ -357,17 +376,14 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
   Widget _buildMobileLayout(ColorScheme colorScheme, double screenWidth, bool isTablet) {
     return Column(
       children: [
-        // Add Alarm Section
         _buildAddAlarmSection(colorScheme, screenWidth, isTablet),
 
-        // Divider
         Container(
           margin: EdgeInsets.symmetric(horizontal: isTablet ? 32 : 24),
           height: 1,
           color: colorScheme.onBackground.withOpacity(0.1),
         ),
 
-        // Active Alarms Section
         Expanded(
           child: alarms.isEmpty
               ? _buildEmptyState(colorScheme, isTablet)
@@ -441,7 +457,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          SizedBox(height: isTablet ? 24 : 20),
+          SizedBox(height: isTablet ? 15 : 11),
           Container(
             constraints: BoxConstraints(maxWidth: isTablet ? 400 : double.infinity),
             decoration: BoxDecoration(
@@ -685,7 +701,8 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                               size: isTablet ? 16 : 14,
                             ),
                             SizedBox(width: isTablet ? 6 : 4),
-                            Flexible( // Wrap Text in Flexible to prevent overflow
+                            Flexible(
+                              // Wrap Text in Flexible to prevent overflow
                               child: Text(
                                 'Daily at ${alarm['time']}',
                                 style: TextStyle(
@@ -725,5 +742,5 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
       ],
     );
   }
-  //#endregion
+//#endregion
 }
