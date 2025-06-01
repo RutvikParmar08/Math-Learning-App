@@ -42,8 +42,8 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
   Future<void> _loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isSoundOn = prefs.getBool('isSoundOn') ?? false;
-      isVibrationOn = prefs.getBool('isVibrationOn') ?? false;
+      isSoundOn = prefs.getBool('isSoundOn') ?? true;
+      isVibrationOn = prefs.getBool('isVibrationOn') ?? true;
     });
   }
 
@@ -390,7 +390,7 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
   //#endregion
 }
 
-//#region Theme Provider
+//#region Theme Provider class
 class ThemeProvider extends ChangeNotifier {
   bool _isNightModeOn = false;
 
@@ -407,15 +407,15 @@ class ThemeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-Future<void> _loadTheme() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  _isNightModeOn = prefs.getBool('isNightModeOn') ?? false;
-  notifyListeners();
-}
+  Future<void> _loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isNightModeOn = prefs.getBool('isNightModeOn') ?? false;
+    notifyListeners();
+  }
 
-Future<void> _saveTheme(bool value) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('isNightModeOn', value);
-}
+  Future<void> _saveTheme(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isNightModeOn', value);
+  }
 }
 //#endregion
