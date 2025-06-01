@@ -69,24 +69,9 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
   }
 
   Future<void> loadScoreFromDatabase() async {
-    String tableName = '';
+    String tableName = 'TrueFalseLevel';
 
-    switch (widget.title) {
-      case 'Single Player':
-        tableName = 'SoloPlayerLevel';
-        break;
-      case 'Input Answer':
-        tableName = 'InputAnswerLevel';
-        break;
-      case 'True False':
-        tableName = 'TrueFalseLevel';
-        break;
-      case 'Missing value':
-        tableName = 'MissingValueLevel';
-        break;
-    }
-
-    if (tableName.isNotEmpty) {
+        if (tableName.isNotEmpty) {
       final record = await MathBlastDatabase.instance.getRecordById(
           tableName, widget.level);
       setState(() {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -16,6 +15,21 @@ class LocalNotifications {
   static final onClickNotification = BehaviorSubject<String>();
   static int _notificationIdCounter = 2;
   static final List<Map<String, dynamic>> _activeAlarms = [];
+  static final List<int> _fourHourNotificationIds = [];
+
+  // Notification messages for 4-hour notifications (from AlarmPage)
+  static final List<String> _notificationMessages = [
+    'Ready to solve some puzzles? 🧠✨',
+    'Math magic is just a tap away! 🔢🪄',
+    'Let\'s play with numbers today! 🎲➗',
+    'Challenge yourself – try a new level! 🚀',
+    'It\'s a great day for a math duel! ⚔️',
+    'Sharpen your mind with a quick sum! ➕',
+    'Numbers are fun, let\'s go! 🎉',
+    'Break time? Or game time? You choose! ⏱️🎮',
+    'Try a word problem and be a math wizard! 📚🧙‍♂️',
+    'Stretch your brain – go solve something cool! 🧩💥',
+  ];
 
   static Future<void> _saveAlarms() async {
     final prefs = await SharedPreferences.getInstance();
@@ -39,7 +53,7 @@ class LocalNotifications {
     }
   }
 
-  static Future init() async {
+  static Future<void> init() async {
     await _loadAlarms();
     const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -57,7 +71,7 @@ class LocalNotifications {
         .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
     if (androidPlugin != null) {
-      final granted = await androidPlugin.requestNotificationsPermission();
+      await androidPlugin.requestNotificationsPermission();
     }
 
     if (await Permission.scheduleExactAlarm.isDenied) {
@@ -80,49 +94,29 @@ class LocalNotifications {
       onDidReceiveNotificationResponse: onNotificationTap,
       onDidReceiveBackgroundNotificationResponse: onNotificationTap,
     );
+
+    // Schedule 4-hour notifications automatically during init
+    await _scheduleEveryFourHoursNotification();
   }
 
-
-  static Future<int> showDailyNotificationAtTime({
-    required String title,
-    required String body,
-    required String payload,
-    required TimeOfDay time,
-    required BuildContext context,
-  }) async
-  {
+  static Future<void> _scheduleEveryFourHoursNotification() async {
     try {
-
       // Initialize timezone
       tz.initializeTimeZones();
 
-      // Calculate schedule time
-      final now = DateTime.now();
-      var scheduleTime = tz.TZDateTime(
-        tz.local,
-        now.year,
-        now.month,
-        now.day,
-        time.hour-5,
-        time.minute-30,
-      );
-      if (scheduleTime.isBefore(tz.TZDateTime.now(tz.local))) {
-        scheduleTime = scheduleTime.add(const Duration(days: 1));
-      }
+      // Clear existing 4-hour notifications
+      await _cancelFourHourNotifications();
 
-      // Generate unique ID
-      final notificationId = _notificationIdCounter++;
-
-      // Initialize notification channel
+      // Create notification channel
       final androidPlugin = _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>();
       if (androidPlugin != null) {
         await androidPlugin.createNotificationChannel(
           const AndroidNotificationChannel(
-            'channel_id_4',
-            'Daily Alarm Channel',
-            description: 'Channel for daily alarms at specific times',
+            'channel_id_4hour',
+            '4-Hour Notification Channel',
+            description: 'Channel for notifications every 4 hours',
             importance: Importance.max,
             playSound: true,
             enableVibration: true,
@@ -138,7 +132,121 @@ class LocalNotifications {
       }
       final exactAlarmStatus = await Permission.scheduleExactAlarm.status;
 
-      // Prompt for permissions if denied
+      if (!notificationsEnabled || exactAlarmStatus.isDenied) {
+        // Permissions are required for scheduling; skip if not granted
+        return;
+      }
+
+      // Schedule notifications every 4 hours
+      final now = tz.TZDateTime.now(tz.local);
+      final startTime = tz.TZDateTime(
+        tz.local,
+        now.year,
+        now.month,
+        now.day,
+        now.hour,
+        0,
+      ).add(Duration(hours: 4 - (now.hour % 4))); // Align to next 4-hour mark
+
+      const notificationDetails = NotificationDetails(
+        android: AndroidNotificationDetails(
+          'channel_id_4hour',
+          '4-Hour Notification Channel',
+          channelDescription: 'Channel for notifications every 4 hours',
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker',
+          playSound: true,
+          enableVibration: true,
+          channelShowBadge: true,
+        ),
+      );
+
+      // Schedule for 24 hours (6 notifications: 0, 4, 8, 12, 16, 20)
+      for (int i = 0; i < 6; i++) {
+        final notificationId = _notificationIdCounter++;
+        final scheduleTime = startTime.add(Duration(hours: i * 4));
+        final message = (_notificationMessages..shuffle()).first;
+
+        await _flutterLocalNotificationsPlugin.zonedSchedule(
+          notificationId,
+          'Reminder',
+          message,
+          scheduleTime,
+          notificationDetails,
+          androidScheduleMode: exactAlarmStatus.isGranted
+              ? AndroidScheduleMode.exactAllowWhileIdle
+              : AndroidScheduleMode.inexactAllowWhileIdle,
+          payload: 'four_hour_notification',
+          matchDateTimeComponents: DateTimeComponents.time,
+        );
+
+        _fourHourNotificationIds.add(notificationId);
+      }
+    } catch (e) {
+      // Handle error silently to avoid user disruption
+    }
+  }
+
+  static Future<void> _cancelFourHourNotifications() async {
+    try {
+      for (var id in _fourHourNotificationIds) {
+        await _flutterLocalNotificationsPlugin.cancel(id);
+      }
+      _fourHourNotificationIds.clear();
+    } catch (e) {
+      // Handle error silently
+    }
+  }
+
+  static Future<int> showDailyNotificationAtTime({
+    required String title,
+    required String body,
+    required String payload,
+    required TimeOfDay time,
+    required BuildContext context,
+  }) async {
+    try {
+      tz.initializeTimeZones();
+
+      final now = DateTime.now();
+      var scheduleTime = tz.TZDateTime(
+        tz.local,
+        now.year,
+        now.month,
+        now.day,
+        time.hour-5,
+        time.minute-30,
+      );
+      if (scheduleTime.isBefore(tz.TZDateTime.now(tz.local))) {
+        scheduleTime = scheduleTime.add(const Duration(days: 1));
+      }
+
+      final notificationId = _notificationIdCounter++;
+
+      final androidPlugin = _flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      if (androidPlugin != null) {
+        await androidPlugin.createNotificationChannel(
+          const AndroidNotificationChannel(
+            'channel_id_1',
+            'Daily Alarm Channel',
+            description: 'Channel for daily alarms at specific times',
+            importance: Importance.max,
+            playSound: true,
+            enableVibration: true,
+            showBadge: true,
+          ),
+        );
+      }
+
+      bool notificationsEnabled = true;
+      if (androidPlugin != null) {
+        notificationsEnabled = await androidPlugin.requestNotificationsPermission() ?? false;
+      }
+      final exactAlarmStatus = await Permission.scheduleExactAlarm.status;
+
       if (!notificationsEnabled) {
         notificationsEnabled = await androidPlugin?.requestNotificationsPermission() ?? false;
         if (!notificationsEnabled) {
@@ -168,7 +276,6 @@ class LocalNotifications {
         }
       }
 
-      // Define notification details
       const androidDetails = AndroidNotificationDetails(
         'channel_id_1',
         'Daily Alarm Channel',
@@ -182,7 +289,6 @@ class LocalNotifications {
       );
       const notificationDetails = NotificationDetails(android: androidDetails);
 
-      // Schedule notification
       await _flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
         title,
@@ -196,7 +302,6 @@ class LocalNotifications {
         matchDateTimeComponents: DateTimeComponents.time,
       );
 
-      // Persist alarm
       _activeAlarms.add({
         'id': notificationId,
         'title': title,
@@ -211,158 +316,6 @@ class LocalNotifications {
       return -1;
     }
   }
-  // static Future<int> showDailyNotificationAtTime({
-  //   required String title,
-  //   required String body,
-  //   required String payload,
-  //   required TimeOfDay time,
-  //   required BuildContext context,
-  // }) async
-  // {
-  //   try {
-  //     debugPrint('Starting showDailyNotificationAtTime: title=$title, time=${time.hour}:${time.minute}');
-  //
-  //     // Initialize timezone
-  //     tz.initializeTimeZones();
-  //     // Explicitly set the timezone to IST (or dynamically get the device's timezone)
-  //     final String deviceTimeZone = await FlutterNativeTimezone.getLocalTimezone();
-  //     final tz.Location location = tz.getLocation(deviceTimeZone);
-  //     tz.setLocalLocation(location);
-  //     debugPrint('Timezone set to: ${tz.local.name}');
-  //
-  //     // Calculate schedule time
-  //     final now = DateTime.now();
-  //     var scheduleTime = tz.TZDateTime(
-  //       tz.local,
-  //       now.year,
-  //       now.month,
-  //       now.day,
-  //       time.hour,
-  //       time.minute,
-  //     );
-  //     if (scheduleTime.isBefore(tz.TZDateTime.now(tz.local))) {
-  //       scheduleTime = scheduleTime.add(const Duration(days: 1));
-  //     }
-  //     debugPrint('Scheduled time: ${scheduleTime.toString()} (ID: $_notificationIdCounter)');
-  //
-  //     // Generate unique ID
-  //     final notificationId = _notificationIdCounter++;
-  //     debugPrint('Generated notification ID: $notificationId');
-  //
-  //     // Initialize notification channel
-  //     final androidPlugin = _flutterLocalNotificationsPlugin
-  //         .resolvePlatformSpecificImplementation<
-  //         AndroidFlutterLocalNotificationsPlugin>();
-  //     if (androidPlugin != null) {
-  //       await androidPlugin.createNotificationChannel(
-  //         const AndroidNotificationChannel(
-  //           'channel_id_4',
-  //           'Daily Alarm Channel',
-  //           description: 'Channel for daily alarms at specific times',
-  //           importance: Importance.max,
-  //           playSound: true,
-  //           enableVibration: true,
-  //           showBadge: true,
-  //         ),
-  //       );
-  //       debugPrint('Notification channel channel_id_4 created');
-  //     }
-  //
-  //     // Check permissions
-  //     bool notificationsEnabled = true;
-  //     if (androidPlugin != null) {
-  //       notificationsEnabled = await androidPlugin.requestNotificationsPermission() ?? false;
-  //       debugPrint('Notification permission status: $notificationsEnabled');
-  //     }
-  //     final exactAlarmStatus = await Permission.scheduleExactAlarm.status;
-  //     debugPrint('Exact alarm permission status: $exactAlarmStatus');
-  //
-  //     // Prompt for permissions if denied
-  //     if (!notificationsEnabled) {
-  //       debugPrint('Notification permission denied, requesting...');
-  //       notificationsEnabled = await androidPlugin?.requestNotificationsPermission() ?? false;
-  //       if (!notificationsEnabled) {
-  //         debugPrint('Notification permission still denied, cannot schedule');
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           const SnackBar(content: Text('Please enable notifications in settings')),
-  //         );
-  //         await openAppSettings();
-  //         return -1;
-  //       }
-  //     }
-  //     if (exactAlarmStatus.isDenied) {
-  //       debugPrint('Exact alarm permission denied, requesting...');
-  //       final status = await Permission.scheduleExactAlarm.request();
-  //       debugPrint('Exact alarm permission after request: $status');
-  //       if (status.isDenied) {
-  //         debugPrint('Prompting user to enable exact alarms in settings');
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           const SnackBar(content: Text('Please enable exact alarms in settings')),
-  //         );
-  //         try {
-  //           final intent = AndroidIntent(
-  //             action: 'android.settings.REQUEST_SCHEDULE_EXACT_ALARM',
-  //             flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
-  //           );
-  //           await intent.launch();
-  //         } catch (e) {
-  //           debugPrint('Error launching alarm settings: $e');
-  //           await openAppSettings();
-  //         }
-  //         return -1;
-  //       }
-  //     }
-  //
-  //     // Define notification details
-  //     const androidDetails = AndroidNotificationDetails(
-  //       'channel_id_4',
-  //       'Daily Alarm Channel',
-  //       channelDescription: 'Channel for daily alarms at specific times',
-  //       importance: Importance.max,
-  //       priority: Priority.high,
-  //       ticker: 'ticker',
-  //       playSound: true,
-  //       enableVibration: true,
-  //       channelShowBadge: true,
-  //     );
-  //     const notificationDetails = NotificationDetails(android: androidDetails);
-  //     debugPrint('Notification details configured');
-  //
-  //     // Schedule notification
-  //     await _flutterLocalNotificationsPlugin.zonedSchedule(
-  //       notificationId,
-  //       title,
-  //       body,
-  //       scheduleTime,
-  //       notificationDetails,
-  //       androidScheduleMode: exactAlarmStatus.isGranted
-  //           ? AndroidScheduleMode.exactAllowWhileIdle
-  //           : AndroidScheduleMode.inexactAllowWhileIdle,
-  //       payload: payload,
-  //       matchDateTimeComponents: DateTimeComponents.time,
-  //     );
-  //     debugPrint(
-  //         'Daily notification $notificationId scheduled for ${scheduleTime.toString()} with ${exactAlarmStatus.isGranted ? 'EXACT' : 'INEXACT'} timing');
-  //
-  //     // Persist alarm
-  //     _activeAlarms.add({
-  //       'id': notificationId,
-  //       'title': title,
-  //       'time': time.format(context),
-  //     });
-  //     await _saveAlarms();
-  //     debugPrint('Alarm saved: $_activeAlarms');
-  //     return notificationId;
-  //   } catch (e) {
-  //     debugPrint('Error scheduling daily notification: $e');
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Failed to schedule notification: $e')),
-  //     );
-  //     return -1;
-  //   }
-  // }
-
-
 
   static List<Map<String, dynamic>> getActiveAlarms() => _activeAlarms;
 
@@ -372,6 +325,7 @@ class LocalNotifications {
       _activeAlarms.removeWhere((alarm) => alarm['id'] == id);
       await _saveAlarms();
     } catch (e) {
+      // Handle error silently
     }
   }
 
@@ -379,8 +333,10 @@ class LocalNotifications {
     try {
       await _flutterLocalNotificationsPlugin.cancelAll();
       _activeAlarms.clear();
+      _fourHourNotificationIds.clear();
       await _saveAlarms();
     } catch (e) {
+      // Handle error silently
     }
   }
 }

@@ -69,22 +69,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
   }
 
   Future<void> loadScoreFromDatabase() async {
-    String tableName = '';
+    String tableName = 'SoloPlayerLevel';
 
-    switch (widget.title) {
-      case 'Single Player':
-        tableName = 'SoloPlayerLevel';
-        break;
-      case 'Input Answer':
-        tableName = 'InputAnswerLevel';
-        break;
-      case 'True False':
-        tableName = 'TrueFalseLevel';
-        break;
-      case 'Missing value':
-        tableName = 'MissingValueLevel';
-        break;
-    }
 
     if (tableName.isNotEmpty) {
       final record = await MathBlastDatabase.instance.getRecordById(
@@ -303,7 +289,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
         forthNumber = null;
         sign = "";
 
-        correctAnswer = _parseNumber(numbers["result"]);
+        correctAnswer = numbers["result"];
       }
       else {
         double num1 = _parseNumber(numbers["number1"]);

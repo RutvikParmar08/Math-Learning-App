@@ -429,6 +429,7 @@ class Operations{
         },
       },
       {
+        "Grade": 4,
         "title": "Addition of Three 4-Digit Numbers",
         "generateNumbers": () {
           int num1 = Random().nextInt(9000) + 1000;

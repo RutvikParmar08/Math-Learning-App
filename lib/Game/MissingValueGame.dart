@@ -80,22 +80,8 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
   }
 
   Future<void> loadScoreFromDatabase() async {
-    String tableName = '';
+    String tableName = 'MissingValueLevel';
 
-    switch (widget.title) {
-      case 'Single Player':
-        tableName = 'SoloPlayerLevel';
-        break;
-      case 'Input Answer':
-        tableName = 'InputAnswerLevel';
-        break;
-      case 'True False':
-        tableName = 'TrueFalseLevel';
-        break;
-      case 'Missing value':
-        tableName = 'MissingValueLevel';
-        break;
-    }
 
     if (tableName.isNotEmpty) {
       final record = await MathBlastDatabase.instance.getRecordById(
@@ -376,8 +362,6 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
           }
         }
       }
-      print("correcct answer : $missingValue");
-      print(currentOperation["generateNumbers"]());
 
 
       answers = [

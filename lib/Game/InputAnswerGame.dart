@@ -85,22 +85,9 @@ class _InputAnswerState extends State<InputAnswerGame> with TickerProviderStateM
   }
 
   Future<void> loadScoreFromDatabase() async {
-    String tableName = '';
+    String tableName = 'InputAnswerLevel';
 
-    switch (widget.title) {
-      case 'Single Player':
-        tableName = 'SoloPlayerLevel';
-        break;
-      case 'Input Answer':
-        tableName = 'InputAnswerLevel';
-        break;
-      case 'True False':
-        tableName = 'TrueFalseLevel';
-        break;
-      case 'Missing value':
-        tableName = 'MissingValueLevel';
-        break;
-    }
+
 
     if (tableName.isNotEmpty) {
       final record = await MathBlastDatabase.instance.getRecordById(
@@ -214,7 +201,6 @@ class _InputAnswerState extends State<InputAnswerGame> with TickerProviderStateM
     final operationType = Random().nextInt(4);
     late List<Map<String, dynamic>> operations;
     bool isWordProblem = false;
-    print("Generating question with operation type: $operationType");
 
     switch (operationType) {
       case 0:
@@ -966,7 +952,7 @@ class _InputAnswerState extends State<InputAnswerGame> with TickerProviderStateM
                 : [Colors.blue[100]!, Colors.purple[100]!],
           ),
           image: DecorationImage(
-            image: AssetImage('assets/BackGround/MathBackGround1.jpeg'),
+            image: AssetImage('assets/BackGround/BackGround2.jpeg'),
             fit: BoxFit.fill,
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(isDarkMode ? 0.4 : 0.2),

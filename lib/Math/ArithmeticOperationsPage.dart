@@ -1,161 +1,217 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
-import '../OperationsForm.dart';
+import 'OperationsForm.dart';
 import '../Setting.dart';
+import 'MathHelpPage.dart';
 import 'Operations.dart';
 
-class SumOperations extends StatefulWidget {
+class ArithmeticOperationsPage extends StatefulWidget {
   final int grade;
+  final String operation;
 
-  const SumOperations({super.key, required this.grade});
+  const ArithmeticOperationsPage({super.key, required this.grade, required this.operation});
 
   @override
-  _SumOperationsState createState() => _SumOperationsState();
-
-
+  _OperationsPageState createState() => _OperationsPageState();
 }
 
-class _SumOperationsState extends State<SumOperations> {
+class _OperationsPageState extends State<ArithmeticOperationsPage> {
   final TextEditingController _filterController = TextEditingController();
   late List<Map<String, dynamic>> filteredOperations;
 
-  // double progress = 0.0;
-
+  //#region Init State  , dispose , operation initialize
   @override
   void initState() {
     super.initState();
-    filteredOperations = Operations.getSumOperations(widget.grade).where((op) => op["Grade"] == widget.grade).toList();
+    _initializeOperations();
+    _filterController.addListener(_filterOperations);
   }
 
   @override
   void dispose() {
+    _filterController.removeListener(_filterOperations);
     _filterController.dispose();
     super.dispose();
   }
 
+  void _initializeOperations() {
+    final operationData = _getOperationData();
+    filteredOperations = operationData['operations']
+        .where((op) => op["Grade"] == widget.grade)
+        .toList();
+  }
+  //#endregion
+
+  void _filterOperations() {
+    final query = _filterController.text.toLowerCase();
+    setState(() {
+      final operationData = _getOperationData();
+      filteredOperations = operationData['operations']
+          .where((op) =>
+      op["Grade"] == widget.grade &&
+          op["title"].toString().toLowerCase().contains(query))
+          .toList();
+    });
+  }
 
 
+  //#region Get Operations Method
+  Map<String, dynamic> _getOperationData() {
+    final operationsMap = {
+      'Addition': {
+        'operations': Operations.getSumOperations(widget.grade),
+        'helpPage': MathHelpPage(grade: widget.grade, operation: 'Addition'),
+      },
+      'Subtraction': {
+        'operations': Operations.getSubtractionOperations(widget.grade),
+        'helpPage': MathHelpPage(grade: widget.grade, operation: 'Subtraction'),
+      },
+      'Multiplication': {
+        'operations': Operations.getMultiplicationOperations(widget.grade),
+        'helpPage': MathHelpPage(grade: widget.grade, operation: 'Multiplication'),
+      },
+      'Division': {
+        'operations': Operations.getDivisionOperations(widget.grade),
+        'helpPage': MathHelpPage(grade: widget.grade, operation: 'Division'),
+      },
+    };
+
+    return operationsMap[widget.operation] ?? {
+      'operations': [],
+      'helpPage': const SizedBox(),
+    };
+  }
+  //#endregion
+
+  //#region Page UI
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: themeProvider.isNightModeOn ? Colors.white.withOpacity(0.8) :Colors.black.withOpacity(0.8),),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: themeProvider.isNightModeOn ? [Colors.black,Colors.black]: [Colors.blue.shade200, Colors.blue.shade800],
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 8,
-                  offset: Offset(0, 2),
-                ),
-              ],
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: themeProvider.isNightModeOn
+              ? Colors.white.withOpacity(0.8)
+              : Colors.black.withOpacity(0.8),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: themeProvider.isNightModeOn
+                  ? [Colors.black, Colors.black]
+                  : [Colors.blue.shade200, Colors.blue.shade800],
             ),
-          ),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.calculate_rounded,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
-              SizedBox(width: 12),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Addition",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "Grade ${widget.grade}",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white.withOpacity(0.85),
-                    ),
-                  ),
-                ],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
-          centerTitle: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(16),
-            ),
-          ),
-          actions: [
+        ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             Container(
-              margin: EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(10),
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.help_outline_rounded,
-                  color: Colors.white,
+              child: const Icon(
+                Icons.calculate_rounded,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.operation,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
-                onPressed: () {
-                  // Show help or instructions
-                },
-                tooltip: "Help",
-              ),
+                Text(
+                  "Grade ${widget.grade}",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white.withOpacity(0.85),
+                  ),
+                ),
+              ],
             ),
           ],
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness: Brightness.light,
+        ),
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(16),
           ),
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: IconButton(
+              icon: const Icon(
+                Icons.help_outline_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => _getOperationData()['helpPage'],
+                  ),
+                );
+              },
+              tooltip: "Help",
+            ),
+          ),
+        ],
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+        ),
+      ),
       body: Stack(
         children: [
           WaveBackground(isDarkMode: isDarkMode),
           Column(
             children: [
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   controller: _filterController,
                   decoration: InputDecoration(
-                      labelText: "Search",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      prefixIcon: Icon(Icons.search)),
+                    labelText: "Search",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    prefixIcon: const Icon(Icons.search),
+                  ),
                 ),
               ),
-              // Padding(
-              //   padding: EdgeInsets.all(16.0),
-              //   child: LinearProgressIndicator(
-              //       value: progress,
-              //       backgroundColor: Colors.grey.shade300,
-              //       color: Colors.green),
-              // ),
               Expanded(
                 child: ListView.builder(
                   itemCount: filteredOperations.length,
@@ -171,12 +227,14 @@ class _SumOperationsState extends State<SumOperations> {
       ),
     );
   }
+  //#endregion
 
+  //#region card Build Method
   Widget _buildCard(BuildContext context, Map<String, dynamic> operation) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(
@@ -184,8 +242,8 @@ class _SumOperationsState extends State<SumOperations> {
           end: Alignment.bottomRight,
           colors: isDarkMode
               ? [
-            Color(0xFF2C2C2E), // Dark gray
-            Color(0xFF1C1C1E), // Darker gray
+            const Color(0xFF2C2C2E), // Dark gray
+            const Color(0xFF1C1C1E), // Darker gray
           ]
               : [
             Colors.white,
@@ -197,7 +255,7 @@ class _SumOperationsState extends State<SumOperations> {
             color: isDarkMode
                 ? Colors.black.withOpacity(0.3)
                 : Colors.grey.withOpacity(0.2),
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
             blurRadius: 8,
           ),
         ],
@@ -207,8 +265,8 @@ class _SumOperationsState extends State<SumOperations> {
         child: InkWell(
           borderRadius: BorderRadius.circular(15),
           onTap: () {
-            var title = operation["title"];
-            var numbers = operation["generateNumbers"];
+            final title = operation["title"];
+            final numbers = operation["generateNumbers"];
 
             Navigator.push(
               context,
@@ -221,7 +279,7 @@ class _SumOperationsState extends State<SumOperations> {
             );
           },
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
                 Expanded(
@@ -235,7 +293,7 @@ class _SumOperationsState extends State<SumOperations> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isDarkMode
@@ -245,9 +303,7 @@ class _SumOperationsState extends State<SumOperations> {
                   child: Icon(
                     Icons.arrow_forward_ios_rounded,
                     size: 16,
-                    color: isDarkMode
-                        ? Colors.deepPurple[200]
-                        : Colors.deepPurple,
+                    color: isDarkMode ? Colors.deepPurple[200] : Colors.deepPurple,
                   ),
                 ),
               ],
@@ -257,8 +313,12 @@ class _SumOperationsState extends State<SumOperations> {
       ),
     );
   }
+  //#endregion
 }
 
+//#region  WaveBackground, DoubleWaveClipper, and AnimatedWaveClipper
+
+//#region WaveBackground Class
 class WaveBackground extends StatefulWidget {
   final bool isDarkMode;
 
@@ -268,8 +328,7 @@ class WaveBackground extends StatefulWidget {
   _WaveBackgroundState createState() => _WaveBackgroundState();
 }
 
-class _WaveBackgroundState extends State<WaveBackground>
-    with SingleTickerProviderStateMixin {
+class _WaveBackgroundState extends State<WaveBackground> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -303,12 +362,12 @@ class _WaveBackgroundState extends State<WaveBackground>
                 gradient: LinearGradient(
                   colors: widget.isDarkMode
                       ? [
-                    Color(0xFF1a237e),
-                    Color(0xFF311b92),
+                    const Color(0xFF1a237e),
+                    const Color(0xFF311b92),
                   ]
                       : [
-                    Color(0xFF2196F3),
-                    Color(0xFF1E88E5),
+                    const Color(0xFF2196F3),
+                    const Color(0xFF1E88E5),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -326,12 +385,12 @@ class _WaveBackgroundState extends State<WaveBackground>
                     gradient: LinearGradient(
                       colors: widget.isDarkMode
                           ? [
-                        Color(0xFF512DA8).withOpacity(0.7),
-                        Color(0xFF673AB7).withOpacity(0.5),
+                        const Color(0xFF512DA8).withOpacity(0.7),
+                        const Color(0xFF673AB7).withOpacity(0.5),
                       ]
                           : [
-                        Color(0xFF64B5F6).withOpacity(0.7),
-                        Color(0xFF90CAF9).withOpacity(0.5),
+                        const Color(0xFF64B5F6).withOpacity(0.7),
+                        const Color(0xFF90CAF9).withOpacity(0.5),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -366,25 +425,9 @@ class _WaveBackgroundState extends State<WaveBackground>
     );
   }
 }
-//
-// class WaveClipper extends CustomClipper<Path> {
-//   @override
-//   Path getClip(Size size) {
-//     Path path = Path();
-//     path.lineTo(0, size.height - 50);
-//     path.quadraticBezierTo(
-//         size.width / 4, size.height, size.width / 2, size.height - 40);
-//     path.quadraticBezierTo(
-//         3 / 4 * size.width, size.height - 80, size.width, size.height - 40);
-//     path.lineTo(size.width, 0);
-//     path.close();
-//     return path;
-//   }
-//
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-// }
+//#endregion
 
+//#region DoubleWaveClipper Class
 class DoubleWaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -392,12 +435,12 @@ class DoubleWaveClipper extends CustomClipper<Path> {
     path.lineTo(0.0, size.height * 0.7);
     var firstControlPoint = Offset(size.width * 0.25, size.height * 0.85);
     var firstEndPoint = Offset(size.width * 0.5, size.height * 0.75);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(
+        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
     var secondControlPoint = Offset(size.width * 0.75, size.height * 0.65);
     var secondEndPoint = Offset(size.width, size.height * 0.75);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
+    path.quadraticBezierTo(
+        secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
     path.lineTo(size.width, 0.0);
     path.close();
     return path;
@@ -406,7 +449,9 @@ class DoubleWaveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
+//#endregion
 
+//#region AnimatedWaveClipper Class
 class AnimatedWaveClipper extends CustomClipper<Path> {
   final double animation;
 
@@ -430,3 +475,7 @@ class AnimatedWaveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
+
+//#endregion
+
+//#endregion
