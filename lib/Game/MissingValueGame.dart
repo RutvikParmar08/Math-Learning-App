@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 import '../Database.dart';
 import '../Math/Operations.dart';
 
@@ -50,6 +52,9 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
   late dynamic correctAnswer;
   late List<dynamic> answers;
   late String sign;
+
+  late bool _isVibrationOn = false;
+
   //#endregion
 
   //#region Init State , Dispose and Load Score
@@ -69,6 +74,8 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
     generateQuestion();
     startTimer();
     loadScoreFromDatabase();
+    _loadPreferences();
+
   }
 
   @override
@@ -90,6 +97,13 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
         savedScore = record?['LevelScore'] ?? 0;
       });
     }
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isVibrationOn = prefs.getBool('isVibrationOn') ?? false;
+    });
   }
 
   //#endregion
@@ -547,6 +561,13 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
       });
     } else {
       setState(() {
+        if (_isVibrationOn) {
+          Vibration.hasVibrator().then((hasVibrator) {
+            if (hasVibrator) {
+              Vibration.vibrate(duration: 200);
+            }
+          });
+        }
         wrongAnswers++;
 
         score = score - scoreDecrement;

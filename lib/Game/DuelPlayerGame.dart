@@ -1,9 +1,8 @@
 import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../Math/Operations.dart';
+import '../Setting.dart';
 
 class DuelPlayerGame extends StatefulWidget {
   final int grade;
@@ -68,7 +67,6 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
     return 0.0;
   }
 
-
   String _formatNumber(dynamic number) {
     if (number is double) {
       if (number == number.truncateToDouble()) {
@@ -78,15 +76,14 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
     }
     return number.toString();
   }
-
   //#endregion
 
   //#region Generate Distractor
   double _generateDistractor(
-    double correct,
-    int operationType, {
-    int offset = 10,
-  })
+      double correct,
+      int operationType, {
+        int offset = 10,
+      })
   {
     double numericCorrect = correct;
 
@@ -103,7 +100,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
       case 3: // Division
         return double.parse(
           ((numericCorrect * (1 + (Random().nextDouble() * 0.5 - 0.25))) +
-                  offset)
+              offset)
               .toStringAsFixed(2),
         );
       default:
@@ -169,8 +166,8 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
       generateQuestion();
       return;
     } else if (currentOperation["title"].toString().toLowerCase().contains(
-          "complex",
-        ) ||
+      "complex",
+    ) ||
         currentOperation["title"].toString().toLowerCase().contains(
           "fraction",
         )) {
@@ -180,8 +177,8 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
 
     isWordProblem =
         currentOperation["title"] == "Word Problem" ||
-        (numbers["number1"] is String &&
-            numbers["number1"].toString().length > 20);
+            (numbers["number1"] is String &&
+                numbers["number1"].toString().length > 20);
 
     if (isWordProblem) {
       firstNumber = numbers["number1"];
@@ -194,9 +191,9 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
       double num1 = _parseNumber(numbers["number1"]);
       double num2 = _parseNumber(numbers["number2"]);
       double? num3 =
-          numbers["number3"] == null ? null : _parseNumber(numbers["number3"]);
+      numbers["number3"] == null ? null : _parseNumber(numbers["number3"]);
       double? num4 =
-          numbers["number4"] == null ? null : _parseNumber(numbers["number4"]);
+      numbers["number4"] == null ? null : _parseNumber(numbers["number4"]);
       double result = _parseNumber(numbers["result"]);
 
       if (operationType == 3 && num2 == 0) {
@@ -257,7 +254,6 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
       player1SelectedAnswer = answer;
       player1HasAnswered = true;
 
-
       if (answer == correctAnswer) {
         player1Score += 10;
         Future.delayed(Duration(milliseconds: 400), () {
@@ -277,7 +273,6 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
     setState(() {
       player2SelectedAnswer = answer;
       player2HasAnswered = true;
-
 
       if (answer == correctAnswer) {
         player2Score += 10;
@@ -304,6 +299,9 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
 
   //#region Show Score Dialog
   void showScoreDialog() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final isDarkMode = themeProvider.isNightModeOn;
+
     String winner;
     if (player1Score > player2Score) {
       winner = "Player 1 wins!";
@@ -318,16 +316,31 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Game Over'),
+          backgroundColor: isDarkMode ? Colors.grey[800] : Colors.white,
+          title: Text(
+            'Game Over',
+            style: TextStyle(
+              color: isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 winner,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
               ),
               SizedBox(height: 20),
-              Text('Final Scores:'),
+              Text(
+                'Final Scores:',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
               SizedBox(height: 10),
               Text(
                 'Player 1: $player1Score points',
@@ -379,129 +392,142 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
   //#region Page UI
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Math Duel',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.indigo,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Text(
-                '$currentQuestionNumber/$maxQuestions',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        final isDarkMode = themeProvider.isNightModeOn;
+
+        // Theme-aware colors
+        final backgroundColor = isDarkMode ? Colors.grey[900] : Colors.indigo.shade50;
+        final appBarColor = isDarkMode ? Colors.grey[800] : Colors.indigo;
+        final cardColor = isDarkMode ? Colors.grey[800] : Colors.white;
+        final gradientStartColor = isDarkMode ? Colors.grey[800] : Colors.indigo.shade100;
+        final gradientEndColor = isDarkMode ? Colors.grey[900] : Colors.indigo.shade50;
+        final questionBackgroundPlayer1 = isDarkMode ? Colors.grey[700] : Colors.blue.shade50;
+        final questionBackgroundPlayer2 = isDarkMode ? Colors.grey[700] : Colors.indigo.shade50;
+        final questionTextColor = isDarkMode ? Colors.white : null;
+        final buttonBorderColorPlayer1 = isDarkMode ? Colors.grey[600] : Colors.blue.shade200;
+        final buttonBorderColorPlayer2 = isDarkMode ? Colors.grey[600] : Colors.indigo.shade200;
+        final buttonTextColor = isDarkMode ? Colors.white : null;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Math Duel',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: appBarColor,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+            actions: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: Text(
+                    '$currentQuestionNumber/$maxQuestions',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-      backgroundColor: Colors.indigo.shade50,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.indigo.shade100, Colors.indigo.shade50],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  SizedBox(height: 16),
-                  // Player 2 game panel (top, rotated)
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
+          backgroundColor: backgroundColor,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [gradientStartColor!, gradientEndColor!],
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 16),
+                      // Player 2 game panel (top, rotated)
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: cardColor,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(isDarkMode ? 0.3 : 0.1),
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Transform.rotate(
-                      angle: pi,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Player 2',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.indigo,
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                          Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.indigo.shade50,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              '${_formatNumber(firstNumber)} $sign ${_formatNumber(secondNumber)} = ?',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.indigo.shade800,
+                        child: Transform.rotate(
+                          angle: pi,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Player 2',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.indigo,
+                                ),
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          GridView.count(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 2.5,
-                            children:
-                                answers.map((answer) {
-                                  bool isSelected =
-                                      player2SelectedAnswer == answer;
+                              SizedBox(height: 12),
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: questionBackgroundPlayer2,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Text(
+                                  '${_formatNumber(firstNumber)} $sign ${_formatNumber(secondNumber)} = ?',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: questionTextColor ?? Colors.indigo.shade800,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              GridView.count(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 2.5,
+                                children: answers.map((answer) {
+                                  bool isSelected = player2SelectedAnswer == answer;
                                   bool isCorrect = answer == correctAnswer;
 
                                   return ElevatedButton(
-                                    onPressed:
-                                        player2HasAnswered
-                                            ? null
-                                            : () => handlePlayer2Answer(answer),
+                                    onPressed: player2HasAnswered
+                                        ? null
+                                        : () => handlePlayer2Answer(answer),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          isSelected
-                                              ? (isCorrect
-                                                  ? Colors.green.shade500
-                                                  : Colors.red.shade500)
-                                              : Colors.white,
+                                      backgroundColor: isSelected
+                                          ? (isCorrect
+                                          ? Colors.green.shade500
+                                          : Colors.red.shade500)
+                                          : (isDarkMode ? Colors.grey[700] : Colors.white),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         side: BorderSide(
-                                          color: Colors.indigo.shade200,
+                                          color: buttonBorderColorPlayer2!,
                                           width: 1,
                                         ),
                                       ),
@@ -516,183 +542,178 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color:
-                                            isSelected
-                                                ? Colors.white
-                                                : Colors.indigo.shade800,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : (buttonTextColor ?? Colors.indigo.shade800),
                                       ),
                                     ),
                                   );
                                 }).toList(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Middle score indicator
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          height: 8,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.blue.shade600,
-                                Colors.indigo.shade600,
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade600,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
                               ),
                             ],
                           ),
-                          child: Text(
-                            'VS',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
                         ),
-                        Positioned(
-                          left: 0,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.shade600,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              '$player1Score',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.indigo.shade600,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              '$player2Score',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
 
-                  // Player 1 game panel (bottom)
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Player 1',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue.shade700,
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Container(
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade50,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Text(
-                            '${_formatNumber(firstNumber)} $sign ${_formatNumber(secondNumber)}${thirdNumber != null ? " $sign ${_formatNumber(thirdNumber)}" : ""}${forthNumber != null ? " $sign ${_formatNumber(forthNumber)}" : ""} = ?',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue.shade800,
+                      // Middle score indicator
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              height: 8,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.blue.shade600,
+                                    Colors.indigo.shade600,
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade600,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'VS',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 0,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade600,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Text(
+                                  '$player1Score',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.indigo.shade600,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Text(
+                                  '$player2Score',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 20),
-                        GridView.count(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          childAspectRatio: 2.5,
-                          children:
-                              answers.map((answer) {
-                                bool isSelected =
-                                    player1SelectedAnswer == answer;
+                      ),
+
+                      // Player 1 game panel (bottom)
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: cardColor,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(isDarkMode ? 0.3 : 0.1),
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Player 1',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue.shade700,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: questionBackgroundPlayer1,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Text(
+                                '${_formatNumber(firstNumber)} $sign ${_formatNumber(secondNumber)}${thirdNumber != null ? " $sign ${_formatNumber(thirdNumber)}" : ""}${forthNumber != null ? " $sign ${_formatNumber(forthNumber)}" : ""} = ?',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: questionTextColor ?? Colors.blue.shade800,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            GridView.count(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: 2.5,
+                              children: answers.map((answer) {
+                                bool isSelected = player1SelectedAnswer == answer;
                                 bool isCorrect = answer == correctAnswer;
 
                                 return ElevatedButton(
-                                  onPressed:
-                                      player1HasAnswered
-                                          ? null
-                                          : () => handlePlayer1Answer(answer),
+                                  onPressed: player1HasAnswered
+                                      ? null
+                                      : () => handlePlayer1Answer(answer),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        isSelected
-                                            ? (isCorrect
-                                                ? Colors.green.shade500
-                                                : Colors.red.shade500)
-                                            : Colors.white,
+                                    backgroundColor: isSelected
+                                        ? (isCorrect
+                                        ? Colors.green.shade500
+                                        : Colors.red.shade500)
+                                        : (isDarkMode ? Colors.grey[700] : Colors.white),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       side: BorderSide(
-                                        color: Colors.blue.shade200,
+                                        color: buttonBorderColorPlayer1!,
                                         width: 1,
                                       ),
                                     ),
@@ -707,25 +728,26 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                      color:
-                                          isSelected
-                                              ? Colors.white
-                                              : Colors.blue.shade800,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : (buttonTextColor ?? Colors.blue.shade800),
                                     ),
                                   ),
                                 );
                               }).toList(),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
-  //#endregion
+//#endregion
 }

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 import '../Database.dart';
 import '../Math/Operations.dart';
 
@@ -51,6 +53,8 @@ class _InputAnswerState extends State<InputAnswerGame> with TickerProviderStateM
   dynamic forthNumber;
   late String sign;
 
+  late bool _isVibrationOn = false;
+
   //endregion
 
   //#region Init State , Dispose , Load Score and Timer
@@ -72,6 +76,7 @@ class _InputAnswerState extends State<InputAnswerGame> with TickerProviderStateM
     setLevelScoreForGrade();
     loadScoreFromDatabase();
     generateQuestion();
+    _loadPreferences();
     startTimer();
   }
 
@@ -96,6 +101,12 @@ class _InputAnswerState extends State<InputAnswerGame> with TickerProviderStateM
         savedScore = record?['LevelScore'] ?? 0;
       });
     }
+  }
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isVibrationOn = prefs.getBool('isVibrationOn') ?? false;
+    });
   }
 
   //#endregion
@@ -357,6 +368,13 @@ class _InputAnswerState extends State<InputAnswerGame> with TickerProviderStateM
     }
     else {
       setState(() {
+        if (_isVibrationOn) {
+          Vibration.hasVibrator().then((hasVibrator) {
+            if (hasVibrator) {
+              Vibration.vibrate(duration: 200);
+            }
+          });
+        }
         wrongAnswers++;
 
         score = score - scoreDecrement;

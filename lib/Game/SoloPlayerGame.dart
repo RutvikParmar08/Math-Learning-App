@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 import '../Math/Operations.dart';
 import '../Database.dart';
 
@@ -49,6 +51,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
   late dynamic correctAnswer;
   late List<dynamic> answers;
 
+  late bool _isVibrationOn = false;
+
   //#endregion
 
   //#region initState , Dispose , Load Score
@@ -60,6 +64,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
     generateQuestion();
     startTimer();
     loadScoreFromDatabase();
+    _loadPreferences();
+
   }
 
   @override
@@ -79,6 +85,12 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
         savedScore = record?['LevelScore'] ?? 0;
       });
     }
+  }
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isVibrationOn = prefs.getBool('isVibrationOn') ?? false;
+    });
   }
 
   //#endregion
@@ -510,6 +522,13 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
     }
     else {
       setState(() {
+        if (_isVibrationOn) {
+          Vibration.hasVibrator().then((hasVibrator) {
+            if (hasVibrator) {
+              Vibration.vibrate(duration: 200);
+            }
+          });
+        }
         wrongAnswers++;
 
         score = score - scoreDecrement;
