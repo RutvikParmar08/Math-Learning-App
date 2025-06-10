@@ -112,69 +112,7 @@ class _MathBlastPageState extends State<MathBlastHomePage> {
       ),
     );
   }
-
-  // BottomNavigationBarItem _buildNavItem({
-  //   required String icon,
-  //   required String label,
-  //   required int index,
-  // })
-  // {
-  //   final themeProvider = Provider.of<ThemeProvider>(context);
-  //   final screenWidth = MediaQuery.of(context).size.width;
-  //   final isTablet = screenWidth > 600;
-  //   final iconSize = isTablet ? 28.0 : 24.0;
-  //
-  //   return BottomNavigationBarItem(
-  //     icon: AnimatedContainer(
-  //       duration: const Duration(milliseconds: 2000),
-  //       curve: Curves.fastLinearToSlowEaseIn,
-  //       transform: Matrix4.identity()
-  //         ..scale(_selectedIndex == index ? 1.1 : 1.0),
-  //       decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
-  //         color: _selectedIndex == index
-  //             ? (themeProvider.isNightModeOn
-  //             ? Colors.white.withOpacity(0.1)
-  //             : Colors.blue.withOpacity(0.1))
-  //             : Colors.transparent,
-  //       ),
-  //       padding: EdgeInsets.symmetric(
-  //         horizontal: isTablet ? 16 : 12,
-  //         vertical: isTablet ? 10 : 8,
-  //       ),
-  //       child: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           ImageIcon(
-  //             AssetImage(icon),
-  //             size: iconSize,
-  //             color: _selectedIndex == index
-  //                 ? (themeProvider.isNightModeOn
-  //                 ? Colors.white
-  //                 : Colors.blue.shade700)
-  //                 : (themeProvider.isNightModeOn
-  //                 ? Colors.grey.shade500
-  //                 : Colors.grey.shade600),
-  //           ),
-  //           if (_selectedIndex == index)
-  //             Container(
-  //               margin: EdgeInsets.only(top: isTablet ? 6 : 4),
-  //               height: isTablet ? 4 : 3,
-
-  //               width: isTablet ? 24 : 20,
-  //               decoration: BoxDecoration(
-  //                 color: themeProvider.isNightModeOn
-  //                     ? Colors.white
-  //                     : Colors.blue.shade700,
-  //                 borderRadius: BorderRadius.circular(2),
-  //               ),
-  //             ),
-  //         ],
-  //       ),
-  //     ),
-  //     label: label,
-  //   );
-  // }
+  
   BottomNavigationBarItem _buildNavItem({
     required String icon,
     required String label,
