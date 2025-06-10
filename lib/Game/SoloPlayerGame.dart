@@ -541,8 +541,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                   BoxShadow(
                     color:
                         isDarkMode
-                            ? Colors.black.withOpacity(0.6)
-                            : Colors.blue.withOpacity(0.3),
+                            ? Color.fromRGBO(0,0,0,0.6)
+                            : Color.fromRGBO(33, 150, 243, 0.3) , // Blue with 30% opacity
                     blurRadius: screenWidth * 0.04,
                     offset: Offset(0, screenWidth * 0.02),
                     spreadRadius: 2,
@@ -581,8 +581,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                     decoration: BoxDecoration(
                       color:
                           isDarkMode
-                              ? Colors.black.withOpacity(0.4)
-                              : Colors.white.withOpacity(0.2),
+                              ? Color.fromRGBO(0, 0, 0, 0.4)
+                              : Color.fromRGBO(255,255,255,0.2),
                       borderRadius: BorderRadius.circular(screenWidth * 0.05),
                       border: Border.all(
                         color:
@@ -694,8 +694,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                       elevation: 6,
                       shadowColor:
                           isDarkMode
-                              ? Colors.purple.withOpacity(0.6)
-                              : Colors.amber.withOpacity(0.6),
+                              ? Color.fromRGBO(128, 0, 128, 0.6)       // Colors.purple
+                              : Color.fromRGBO(255, 193, 7, 0.6)       // Colors.amber
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -807,7 +807,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
               borderRadius: BorderRadius.circular(screenWidth * 0.06),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.pink.withOpacity(0.5),
+                  color: Color.fromRGBO(233, 30, 99, 0.5), // Pink
+
                   blurRadius: screenWidth * 0.05,
                   spreadRadius: screenWidth * 0.0125,
                 ),
@@ -834,7 +835,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                             height: screenWidth * 0.25,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.amber.withOpacity(0.3),
+                              color: Color.fromRGBO(255, 193, 7, 0.3) , //Amber
                             ),
                           ),
                         );
@@ -920,7 +921,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: fontSize * 0.9,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Color.fromRGBO(255,255,255,0.9),
                               fontWeight: FontWeight.w500,
                             ),
                           );
@@ -944,7 +945,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                           horizontal: screenWidth * 0.05,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
+                          color: Color.fromRGBO(255, 255, 255, 0.15),
                           borderRadius: BorderRadius.circular(
                             screenWidth * 0.075,
                           ),
@@ -998,7 +999,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
         Container(
           padding: EdgeInsets.all(fontSize * 0.2),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: Color.fromRGBO(color.red, color.green, color.blue, 0.2),
             borderRadius: BorderRadius.circular(fontSize * 0.4),
           ),
           child: Icon(icon, color: color, size: fontSize),
@@ -1071,8 +1072,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                       BoxShadow(
                                         color:
                                             isDarkMode
-                                                ? Colors.black.withOpacity(0.3)
-                                                : Colors.pink.withOpacity(0.3),
+                                                ? Color.fromRGBO(0, 0, 0, 0.3)
+                                                :Color.fromRGBO(233, 30, 99, 0.3), //Pink
                                         blurRadius: screenWidth * 0.0125,
                                         offset: Offset(0, screenWidth * 0.005),
                                       ),
@@ -1127,8 +1128,9 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                               BoxShadow(
                                 color:
                                     isDarkMode
-                                        ? Colors.black.withOpacity(0.4)
-                                        : Colors.pink.withOpacity(0.2),
+                                        ? Color.fromRGBO(0,0,0,0.4)
+                                        : Color.fromRGBO(233, 30, 99, 0.2), //Pink
+
                                 blurRadius: screenWidth * 0.03,
                                 offset: Offset(0, screenWidth * 0.015),
                               ),
@@ -1306,8 +1308,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                   BoxShadow(
                                     color:
                                         isDarkMode
-                                            ? Colors.black.withOpacity(0.3)
-                                            : Colors.grey.withOpacity(0.3),
+                                            ? Color.fromRGBO(0,0,0,0.3)
+                                            : Color.fromRGBO(158, 158, 158,0.3), //Grey
                                     spreadRadius: screenWidth * 0.0025,
                                     blurRadius: screenWidth * 0.0125,
                                     offset: Offset(0, screenWidth * 0.005),
