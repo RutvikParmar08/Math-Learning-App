@@ -352,7 +352,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
               SizedBox(height: 10),
               Text(
                 'Player 1: $player1Score points',
-                style: TextStyle(color: Colors.blue.shade700),
+                style: TextStyle(color: Colors.green.shade700),
               ),
               Text(
                 'Player 2: $player2Score points',
@@ -405,16 +405,16 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
         final isDarkMode = themeProvider.isNightModeOn;
 
         // Theme-aware colors
-        final backgroundColor = isDarkMode ? Colors.grey[900] : Colors.indigo.shade50;
-        final appBarColor = isDarkMode ? Colors.grey[800] : Colors.indigo;
+        final backgroundColor = isDarkMode ? Colors.grey[900] : Colors.green.shade50;
+        final appBarColor = isDarkMode ? Colors.grey[800] : Colors.green.shade500;
         final cardColor = isDarkMode ? Colors.grey[800] : Colors.white;
-        final gradientStartColor = isDarkMode ? Colors.grey[800] : Colors.indigo.shade100;
-        final gradientEndColor = isDarkMode ? Colors.grey[900] : Colors.indigo.shade50;
-        final questionBackgroundPlayer1 = isDarkMode ? Colors.grey[700] : Colors.blue.shade50;
-        final questionBackgroundPlayer2 = isDarkMode ? Colors.grey[700] : Colors.indigo.shade50;
+        final gradientStartColor = isDarkMode ? Colors.grey[800] : Colors.green.shade500;
+        final gradientEndColor = isDarkMode ? Colors.grey[900] : Colors.green.shade50;
+        final questionBackgroundPlayer1 = isDarkMode ? Colors.grey[700] : Colors.green.shade50;
+        final questionBackgroundPlayer2 = isDarkMode ? Colors.grey[700] : Colors.green.shade50;
         final questionTextColor = isDarkMode ? Colors.white : null;
-        final buttonBorderColorPlayer1 = isDarkMode ? Colors.grey[600] : Colors.blue.shade200;
-        final buttonBorderColorPlayer2 = isDarkMode ? Colors.grey[600] : Colors.indigo.shade200;
+        final buttonBorderColorPlayer1 = isDarkMode ? Colors.grey[600] : Colors.green.shade500;
+        final buttonBorderColorPlayer2 = isDarkMode ? Colors.grey[600] : Colors.green.shade200;
         final buttonTextColor = isDarkMode ? Colors.white : null;
 
         return Scaffold(
@@ -474,7 +474,9 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(isDarkMode ? 0.3 : 0.1),
+                              color: isDarkMode
+                                  ? Color.fromRGBO(0, 0, 0, 0.3)
+                                  : Color.fromRGBO(0, 0, 0, 0.1),
                               blurRadius: 8,
                               offset: Offset(0, 4),
                             ),
@@ -490,7 +492,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.indigo,
+                                  color: Colors.green,
                                 ),
                               ),
                               SizedBox(height: 12),
@@ -505,7 +507,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                   style: TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,
-                                    color: questionTextColor ?? Colors.indigo.shade800,
+                                    color: questionTextColor ?? Colors.green.shade800,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -552,7 +554,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                         fontWeight: FontWeight.bold,
                                         color: isSelected
                                             ? Colors.white
-                                            : (buttonTextColor ?? Colors.indigo.shade800),
+                                            : (buttonTextColor ?? Colors.green.shade800),
                                       ),
                                     ),
                                   );
@@ -574,8 +576,8 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    Colors.blue.shade600,
-                                    Colors.indigo.shade600,
+                                    Colors.green.shade600,
+                                    Colors.green.shade600,
                                   ],
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
@@ -616,7 +618,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue.shade600,
+                                  color: Colors.green.shade600,
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Text(
@@ -637,7 +639,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.indigo.shade600,
+                                  color: Colors.green.shade600,
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Text(
@@ -662,7 +664,9 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(isDarkMode ? 0.3 : 0.1),
+                              color: isDarkMode
+                                  ? Color.fromRGBO(0, 0, 0, 0.3)
+                                  : Color.fromRGBO(0, 0, 0, 0.1),
                               blurRadius: 8,
                               offset: Offset(0, 4),
                             ),
@@ -676,7 +680,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue.shade700,
+                                color: Colors.green.shade700,
                               ),
                             ),
                             SizedBox(height: 12),
@@ -691,7 +695,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
-                                  color: questionTextColor ?? Colors.blue.shade800,
+                                  color: questionTextColor ?? Colors.green.shade800,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -721,8 +725,8 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       side: BorderSide(
-                                        color: buttonBorderColorPlayer1!,
-                                        width: 1,
+                                          color: buttonBorderColorPlayer1!,
+                                          width: 1,
                                       ),
                                     ),
                                     padding: EdgeInsets.symmetric(
@@ -738,7 +742,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                       fontWeight: FontWeight.bold,
                                       color: isSelected
                                           ? Colors.white
-                                          : (buttonTextColor ?? Colors.blue.shade800),
+                                          : (buttonTextColor ?? Colors.green.shade800),
                                     ),
                                   ),
                                 );
