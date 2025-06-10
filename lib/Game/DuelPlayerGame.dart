@@ -9,7 +9,7 @@ class DuelPlayerGame extends StatefulWidget {
 
   const DuelPlayerGame({
     super.key,
-    this.grade = 2, // Default to grade 2 if not specified
+    this.grade = 2,
   });
 
   @override
@@ -31,8 +31,8 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
   dynamic forthNumber;
   String sign = "";
 
-  double correctAnswer = 0.0;
-  late List<double> answers; // Explicitly type as List<double>
+  dynamic correctAnswer;
+  late List<dynamic> answers;
 
   int currentQuestionNumber = 1;
   final int maxQuestions = 20;
@@ -79,34 +79,40 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
   //#endregion
 
   //#region Generate Distractor
-  double _generateDistractor(
-      double correct,
+  dynamic _generateDistractor(
+      num correct,
       int operationType, {
         int offset = 10,
-      })
-  {
-    double numericCorrect = correct;
+      }) {
+    final random = Random();
+    final randomFactor = 1 + (random.nextDouble() * 0.5 - 0.25); // ±25%
 
     switch (operationType) {
       case 0: // Addition
       case 1: // Subtraction
-        return (numericCorrect + (Random().nextInt(20) - 10 + offset))
-            .toDouble();
+        if (correct is int) {
+          return correct + (random.nextInt(20) - 10 + offset);
+        } else {
+          return double.parse(
+            (correct + (random.nextInt(20) - 10 + offset)).toStringAsFixed(2),
+          );
+        }
+
       case 2: // Multiplication
-        double randomFactor = 1 + (Random().nextDouble() * 0.5 - 0.25);
-        return double.parse(
-          ((numericCorrect * randomFactor) + offset).toStringAsFixed(2),
-        );
+        if (correct is int) {
+          return ((correct * randomFactor) + offset).round();
+        } else {
+          return double.parse(((correct * randomFactor) + offset).toStringAsFixed(2));
+        }
+
       case 3: // Division
-        return double.parse(
-          ((numericCorrect * (1 + (Random().nextDouble() * 0.5 - 0.25))) +
-              offset)
-              .toStringAsFixed(2),
-        );
+        return double.parse(((correct * randomFactor) + offset).toStringAsFixed(2));
+
       default:
-        return (numericCorrect + offset).toDouble();
+        return correct + offset;
     }
   }
+
   //#endregion
 
   //#region Generate Question
@@ -187,7 +193,8 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
       forthNumber = null;
       sign = "";
       correctAnswer = _parseNumber(numbers["result"]);
-    } else {
+    }
+    else {
       double num1 = _parseNumber(numbers["number1"]);
       double num2 = _parseNumber(numbers["number2"]);
       double? num3 =
@@ -204,7 +211,8 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
       secondNumber = num2;
       thirdNumber = num3;
       forthNumber = num4;
-      correctAnswer = result; // Keep as double, do not convert to int
+      correctAnswer = result.roundToDouble() == result ? result.toInt() : double.parse(result.toStringAsFixed(2));
+
     }
 
     try {
@@ -493,7 +501,7 @@ class _DuelPlayerGameState extends State<DuelPlayerGame> {
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Text(
-                                  '${_formatNumber(firstNumber)} $sign ${_formatNumber(secondNumber)} = ?',
+                                  '${_formatNumber(firstNumber)} $sign ${_formatNumber(secondNumber)}${thirdNumber != null ? " $sign ${_formatNumber(thirdNumber)}" : ""}${forthNumber != null ? " $sign ${_formatNumber(forthNumber)}" : ""} = ?',
                                   style: TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,

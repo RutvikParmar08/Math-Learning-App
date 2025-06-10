@@ -12,10 +12,10 @@ class LevelPage extends StatefulWidget {
   final Color themeColor;
 
   const LevelPage({
-    Key? key,
+    super.key,
     required this.title,
     this.themeColor = Colors.green,
-  }) : super(key: key);
+  });
 
   @override
   _LevelPageState createState() => _LevelPageState();
@@ -76,7 +76,6 @@ class _LevelPageState extends State<LevelPage> {
         final isDarkMode = themeProvider.isNightModeOn;
         final backgroundColor = isDarkMode ? Colors.grey[900] : Colors.grey[300];
         final textColor = isDarkMode ? Colors.white : Colors.grey[800];
-        final cardColor = isDarkMode ? Colors.grey[800] : Colors.white;
 
         return SafeArea(
           child: Scaffold(
@@ -367,7 +366,7 @@ class LevelCard extends StatelessWidget {
   final bool isDarkMode;
 
   const LevelCard({
-    Key? key,
+    super.key,
     required this.levelNumber,
     this.themeColor = Colors.green,
     this.onTap,
@@ -375,7 +374,7 @@ class LevelCard extends StatelessWidget {
     this.score = 0,
     this.isLocked = false,
     this.isDarkMode = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

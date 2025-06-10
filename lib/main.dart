@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
-      navigatorKey: navigatorKey, // Add navigatorKey to MaterialApp
+      navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
         brightness: themeProvider.isNightModeOn ? Brightness.dark : Brightness.light,

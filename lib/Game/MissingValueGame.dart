@@ -427,15 +427,14 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                   2)) :
           correct + (Random().nextInt(20) - 10 + offset);
       case 2: // Multiplication
-        return
-          correct is int ?
-          double.parse(
-              ((correct * (1 + (Random().nextDouble() * 0.5 - 0.25))) + offset)
-                  .toInt().toString()) :
-          double.parse(
-              ((correct * (1 + (Random().nextDouble() * 0.5 - 0.25))) + offset)
-                  .toStringAsFixed(2));
-
+        if (correct is int) {
+          return ((correct * (1 + (Random().nextDouble() * 0.5 - 0.25))) + offset).toInt();
+        } else {
+          return double.parse(
+            ((correct * (1 + (Random().nextDouble() * 0.5 - 0.25))) + offset)
+                .toStringAsFixed(2),
+          );
+        }
 
       case 3: // Division
         return double.parse(
@@ -1433,5 +1432,5 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
       ),
     );
   }
-  //#endregion
+//#endregion
 }
