@@ -37,8 +37,8 @@ class _MathBlastPageState extends State<MathBlastHomePage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: themeProvider.isNightModeOn
-                ? [Colors.grey.shade900, Colors.black]
-                : [Colors.purple.shade50, Colors.white],
+                ? [Colors.grey.shade800, Colors.black87]
+                : [Colors.white, Colors.white],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -49,8 +49,8 @@ class _MathBlastPageState extends State<MathBlastHomePage> {
           boxShadow: [
             BoxShadow(
               color: themeProvider.isNightModeOn
-                  ? Colors.black.withOpacity(0.3)
-                  : Colors.black.withOpacity(0.1),
+                  ? Color.fromRGBO(10, 149, 24, 0.3)
+                  : Color.fromRGBO(100,201,30,0.2),
               blurRadius: isTablet ? 16 : 12,
               spreadRadius: 2,
               offset: Offset(0, -3),
@@ -112,7 +112,7 @@ class _MathBlastPageState extends State<MathBlastHomePage> {
       ),
     );
   }
-  
+
   BottomNavigationBarItem _buildNavItem({
     required String icon,
     required String label,
