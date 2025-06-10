@@ -619,8 +619,8 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                 boxShadow: [
                   BoxShadow(
                     color: isDarkMode
-                        ? Colors.black.withOpacity(0.6)
-                        : Colors.blue.withOpacity(0.3),
+                        ? Color.fromRGBO(0,0,0,0.6)
+                        : Color.fromRGBO(33, 150, 243,0.3),
                     blurRadius: 16,
                     offset: Offset(0, 8),
                     spreadRadius: 2,
@@ -656,8 +656,8 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                     decoration: BoxDecoration(
                       color: isDarkMode
-                          ? Colors.black.withOpacity(0.4)
-                          : Colors.white.withOpacity(0.2),
+                          ? Color.fromRGBO(0,0,0,0.4)
+                          : Color.fromRGBO(255,255,255,0.2),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: isDarkMode ? Colors.purple[700]! : Colors
@@ -769,8 +769,8 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                       ),
                       elevation: 6,
                       shadowColor: isDarkMode
-                          ? Colors.purple.withOpacity(0.6)
-                          : Colors.amber.withOpacity(0.6),
+                          ? Color.fromRGBO(128, 0, 128, 0.6)
+                          : Color.fromRGBO(255, 193, 7, 0.6),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -881,7 +881,7 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.cyan.withOpacity(0.5),
+                color:  Color.fromRGBO(0, 188, 212, 0.5),
                 blurRadius: 20,
                 spreadRadius: 5,
               ),
@@ -907,7 +907,7 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                           height: 100,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.amber.withOpacity(0.3),
+                            color: Color.fromRGBO(255, 193, 7, 0.3),
                           ),
                         ),
                       );
@@ -988,7 +988,7 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Color.fromRGBO(255,255,255,0.9),
                             fontWeight: FontWeight.w500,
                           ),
                         );
@@ -1010,7 +1010,7 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
+                        color: Color.fromRGBO(255,255,255,0.15),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Row(
@@ -1058,7 +1058,7 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
         Container(
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: Color.fromRGBO(color.red, color.green, color.blue, 0.2),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
@@ -1123,8 +1123,9 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                                 boxShadow: [
                                   BoxShadow(
                                     color: isDarkMode
-                                        ? Colors.black.withOpacity(0.3)
-                                        : Colors.cyan.withOpacity(0.3),
+                                        ? Color.fromRGBO(0, 0, 0, 0.3)
+                                        : Color.fromRGBO(0, 188, 212, 0.3),
+
                                     blurRadius: 5,
                                     offset: Offset(0, 2),
                                   ),
@@ -1172,8 +1173,8 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                         boxShadow: [
                           BoxShadow(
                             color: isDarkMode
-                                ? Colors.black.withOpacity(0.4)
-                                : Colors.cyan.withOpacity(0.2),
+                                ? Color.fromRGBO(0, 0, 0, 0.4)
+                                : Color.fromRGBO(0, 188, 212, 0.2),
                             blurRadius: 12,
                             offset: Offset(0, 6),
                           ),
@@ -1313,8 +1314,8 @@ class _MissingValueGameState extends State<MissingValueGame> with TickerProvider
                             boxShadow: [
                               BoxShadow(
                                 color: isDarkMode
-                                    ? Colors.black.withOpacity(0.3)
-                                    : Colors.grey.withOpacity(0.3),
+                                    ? Color.fromRGBO(0, 0, 0, 0.3)
+                                    : Color.fromRGBO(158, 158, 158,0.3),
                                 spreadRadius: 1,
                                 blurRadius: 5,
                                 offset: const Offset(0, 2),

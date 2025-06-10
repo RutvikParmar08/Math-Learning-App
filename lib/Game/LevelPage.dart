@@ -311,7 +311,7 @@ class _LevelPageState extends State<LevelPage> {
   Widget _buildStatCard(String value, String label) {
     return Expanded(
       child: Card(
-        color: Colors.white.withOpacity(0.15),
+        color: Color.fromRGBO(255,255,255,0.15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
