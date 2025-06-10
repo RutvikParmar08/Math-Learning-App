@@ -25,10 +25,6 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
   List<Map<String, dynamic>> _getSections() {
     final MathHelpSection helpSection = MathHelpSection();
 
-    List<Map<String, dynamic>> allSections;
-
-
-
     switch (widget.operation.toLowerCase()) {
       case 'addition':
         return helpSection.getAdditionHelp(widget.grade);
@@ -85,7 +81,7 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
           0xFFF8F9FA),
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.white.withOpacity(0.9),
+          color: Color.fromRGBO(255, 255, 255, 0.9),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -106,7 +102,7 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Color.fromRGBO(0, 0, 0, 0.2),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -134,7 +130,7 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white.withOpacity(0.85),
+                    color: Color.fromRGBO(255,255,255,0.85),
                   ),
                 ),
               ],
@@ -221,8 +217,8 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
         boxShadow: [
           BoxShadow(
             color: isDarkMode
-                ? Colors.black.withOpacity(0.3)
-                : Colors.grey.withOpacity(0.2),
+                ? Color.fromRGBO(0, 0, 0, 0.3)
+                : Color.fromRGBO(158,158,158,0.2), // Grey
             offset: const Offset(0, 4),
             blurRadius: 8,
           ),
@@ -270,10 +266,9 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: (isDarkMode
-                                ? const Color(0xFF512DA8)
-                                : Colors.blue)
-                                .withOpacity(0.3),
+                            color: isDarkMode
+                                ? Color.fromRGBO(81, 45, 168, 0.3)
+                                : Color.fromRGBO(33, 150, 243, 0.3), // Colors.blue
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -306,8 +301,8 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: isDarkMode
-                            ? Colors.deepPurple.withOpacity(0.2)
-                            : Colors.blue.withOpacity(0.1),
+                            ? Color.fromRGBO(103, 58, 183,0.2)
+                            : Color.fromRGBO(33, 150, 243,0.1),
                       ),
                       child: AnimatedRotation(
                         turns: isExpanded ? 0.5 : 0,
@@ -364,8 +359,8 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                 color: isDarkMode
-                                    ? Colors.blue.withOpacity(0.3)
-                                    : Colors.blue.withOpacity(0.2),
+                                    ? Color.fromRGBO(33, 150, 243,0.3) // Blue
+                                    : Color.fromRGBO(33, 150, 243,0.2), // Blue
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(
@@ -426,9 +421,9 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                                   padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     color: isDarkMode
-                                        ? Colors.green.withOpacity(0.3)
-                                        : Colors.green.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(8),
+                                        ? Color.fromRGBO(76, 175, 80, 0.3)
+                                        : Color.fromRGBO(76, 175, 80, 0.2),
+                                      borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
                                     Icons.format_list_numbered,
@@ -533,10 +528,9 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: (isDarkMode
-                                  ? const Color(0xFF1a237e)
-                                  : Colors.indigo)
-                                  .withOpacity(0.3),
+                              color: isDarkMode
+                                  ? Color.fromRGBO(26, 35, 126, 0.3)
+                                  : Color.fromRGBO(63, 81, 181, 0.3), // Colors.indigo
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -550,7 +544,7 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                                 Container(
                                   padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.2),
+                                    color: Color.fromRGBO(255, 255, 255, 0.2),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: const Icon(
@@ -575,7 +569,7 @@ class _MathHelpPageState extends State<MathHelpPage> with SingleTickerProviderSt
                               width: double.infinity,
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.3),
+                                color: Color.fromRGBO(0, 0, 0, 0.3),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(

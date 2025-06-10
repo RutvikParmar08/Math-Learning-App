@@ -113,7 +113,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Color.fromRGBO(0, 0, 0, 0.2),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -303,7 +303,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                   Text(
                     "$sign  $number2",
                     style: TextStyle(
-                      fontSize: fontSize, // Corrected from vervoortSize
+                      fontSize: fontSize, // Corrected from fontSize
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -398,7 +398,6 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
   Widget build(BuildContext context) {
     final isDarkMode = Provider.of<ThemeProvider>(context).isNightModeOn;
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     final fontSize = screenWidth * 0.06;
     final padding = screenWidth * 0.04;
 
@@ -411,7 +410,9 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
               gradient: LinearGradient(
                 colors: isDarkMode
                     ? [Colors.blueGrey.shade900, Colors.black87]
-                    : [Colors.teal.withOpacity(0.8), Colors.blue.withOpacity(0.8)],
+                    : [ Color.fromRGBO(0, 150, 136, 0.8),  // Colors.teal
+                        Color.fromRGBO(33, 150, 243, 0.8), // Colors.blue
+                      ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -419,7 +420,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                 image: const AssetImage('assets/BackGround/Background.jpeg'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  isDarkMode ? Colors.black.withOpacity(0.7) : Colors.black.withOpacity(0.2),
+                  isDarkMode ? Color.fromRGBO(0,0,0,0.7) : Color.fromRGBO(0,0,0,0.2),
                   BlendMode.darken,
                 ),
               ),
@@ -438,7 +439,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                     borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Color.fromRGBO(0,0,0,0.2),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -616,7 +617,9 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: isDarkMode ? Colors.tealAccent.withOpacity(0.3) : Colors.teal.withOpacity(0.3),
+            color: isDarkMode
+                ? Color.fromRGBO(128, 255, 219, 0.3)  // Colors.tealAccent
+                : Color.fromRGBO(0, 150, 136, 0.3),   // Colors.teal
             width: 2,
           ),
         ),
@@ -688,8 +691,13 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
             borderRadius: BorderRadius.circular(20),
             side: BorderSide(
               color: isValid
-                  ? (isDarkMode ? Colors.greenAccent.withOpacity(0.5) : Colors.green.withOpacity(0.3))
-                  : (isDarkMode ? Colors.redAccent.withOpacity(0.5) : Colors.red.withOpacity(0.3)),
+                  ? (isDarkMode
+                  ? Color.fromRGBO(185, 246, 202, 0.5) // Colors.greenAccent
+                  : Color.fromRGBO(76, 175, 80, 0.3))  // Colors.green
+                  : (isDarkMode
+                  ? Color.fromRGBO(255, 82, 82, 0.5)   // Colors.redAccent
+                  : Color.fromRGBO(244, 67, 54, 0.3)), // Colors.red
+
               width: 2,
             ),
           ),
@@ -756,7 +764,9 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: isDarkMode ? Colors.redAccent.withOpacity(0.5) : Colors.red.withOpacity(0.3),
+            color: isDarkMode
+                ? Color.fromRGBO(255, 82, 82, 0.5)   // Colors.redAccent
+                : Color.fromRGBO(244, 67, 54, 0.3),  // Colors.red
             width: 2,
           ),
         ),
@@ -835,13 +845,15 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Color.fromRGBO(0,0,0,0.2),
                 blurRadius: 10,
                 offset: Offset(0, 5),
               ),
             ],
             border: Border.all(
-              color: isDarkMode ? Colors.red.withOpacity(0.2) : Colors.red.withOpacity(0.1),
+              color: isDarkMode
+                  ? Color.fromRGBO(244, 67, 54, 0.2)  // Colors.red
+                  : Color.fromRGBO(244, 67, 54, 0.1),
               width: 1,
             ),
           ),

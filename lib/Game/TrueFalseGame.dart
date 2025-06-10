@@ -527,8 +527,8 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                 boxShadow: [
                   BoxShadow(
                     color: isDarkMode
-                        ? Colors.black.withOpacity(0.6)
-                        : Colors.blue.withOpacity(0.3),
+                        ? Color.fromRGBO(0, 0, 0, 0.6)
+                        : Color.fromRGBO(33, 150, 243,0.3),
                     blurRadius: 16,
                     offset: Offset(0, 8),
                     spreadRadius: 2,
@@ -564,8 +564,8 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                     decoration: BoxDecoration(
                       color: isDarkMode
-                          ? Colors.black.withOpacity(0.4)
-                          : Colors.white.withOpacity(0.2),
+                          ? Color.fromRGBO(0, 0, 0, 0.4)
+                          : Color.fromRGBO(255,255,255,0.2),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: isDarkMode ? Colors.purple[700]! : Colors
@@ -677,8 +677,8 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                       ),
                       elevation: 6,
                       shadowColor: isDarkMode
-                          ? Colors.purple.withOpacity(0.6)
-                          : Colors.amber.withOpacity(0.6),
+                          ? Color.fromRGBO(128,0,128,0.6) // Purple
+                          : Color.fromRGBO(255,193,7,0.6), // Amber
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -790,7 +790,7 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.purple.withOpacity(0.5),
+                color: Color.fromRGBO(128,0,128,0.5), // Purple
                 blurRadius: 20,
                 spreadRadius: 5,
               ),
@@ -816,7 +816,7 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                           height: 100,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.amber.withOpacity(0.3),
+                            color: Color.fromRGBO(255,193,7,0.3), //Amber
                           ),
                         ),
                       );
@@ -897,7 +897,7 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Color.fromRGBO(255,255,255,0.9),
                             fontWeight: FontWeight.w500,
                           ),
                         );
@@ -919,7 +919,7 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
+                        color: Color.fromRGBO(255,255,255,0.15),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Row(
@@ -967,7 +967,7 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
         Container(
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: Color.fromRGBO(color.red, color.green, color.blue, 0.2),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: color, size: 20),
@@ -1028,8 +1028,8 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: isDarkMode
-                                        ? Colors.black.withOpacity(0.3)
-                                        : Colors.purple.withOpacity(0.3),
+                                        ? Color.fromRGBO(0, 0, 0, 0.3)
+                                        : Color.fromRGBO(128,0,128,0.3), //Purple
                                     blurRadius: 5,
                                     offset: Offset(0, 2),
                                   ),
@@ -1074,8 +1074,8 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                         boxShadow: [
                           BoxShadow(
                             color: isDarkMode
-                                ? Colors.black.withOpacity(0.4)
-                                : Colors.purple.withOpacity(0.2),
+                                ? Color.fromRGBO(0, 0, 0, 0.4)
+                                : Color.fromRGBO(128,0,128,0.2), //Purple
                             blurRadius: 12,
                             offset: Offset(0, 6),
                           ),
@@ -1203,8 +1203,8 @@ class _TrueFalseGameState extends State<TrueFalseGame> {
                             boxShadow: [
                               BoxShadow(
                                 color: isDarkMode
-                                    ? Colors.black.withOpacity(0.3)
-                                    : Colors.grey.withOpacity(0.3),
+                                    ? Color.fromRGBO(0, 0, 0, 0.3) // Black with 30% opacity(0.3)
+                                    : Color.fromRGBO(158,158,158,0.3), //Grey with 30% opacity(0.3)
                                 spreadRadius: 1,
                                 blurRadius: 5,
                                 offset: const Offset(0, 2),

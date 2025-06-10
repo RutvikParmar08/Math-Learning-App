@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,8 @@ import 'Setting.dart';
 
 //#region Grade Page
 class GradePage extends StatefulWidget {
+  const GradePage({super.key});
+
   @override
   _GradePageState createState() => _GradePageState();
 }
@@ -122,8 +123,8 @@ class _GradePageState extends State<GradePage> with TickerProviderStateMixin {
             boxShadow: [
               BoxShadow(
                 color: isDarkMode
-                    ? Colors.black.withOpacity(0.3)
-                    : Colors.blue.withOpacity(0.2),
+                    ? Color.fromRGBO(0,0,0,0.3)
+                    : Color.fromRGBO(33, 150, 243,0.2),
                 blurRadius: 10,
                 offset: Offset(0, 3),
               ),
@@ -155,8 +156,8 @@ class _GradePageState extends State<GradePage> with TickerProviderStateMixin {
           margin: EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: isDarkMode
-                ? Colors.white.withOpacity(0.1)
-                : Colors.white.withOpacity(0.3),
+                ? Color.fromRGBO(255,255,255,0.1)
+                : Color.fromRGBO(255,255,255,0.3),
             borderRadius: BorderRadius.circular(10),
           ),
           child: IconButton(
@@ -329,10 +330,10 @@ class _GradePageState extends State<GradePage> with TickerProviderStateMixin {
               margin: EdgeInsets.all(padding),
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
-                color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.05),
+                color: (isDarkMode ? Color.fromRGBO(255,255,255,0.05) : Color.fromRGBO(0,0,0,0.05)),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.1),
+                  color: (isDarkMode ? Color.fromRGBO(255,255,255,0.1) : Color.fromRGBO(0,0,0,0.1)),
                   width: 1,
                 ),
               ),
@@ -342,14 +343,14 @@ class _GradePageState extends State<GradePage> with TickerProviderStateMixin {
                   Icon(
                     Icons.info_outline,
                     size: 16,
-                    color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.7),
+                    color: (isDarkMode ? Color.fromRGBO(255,255,255,0.7) : Color.fromRGBO(0,0,0,0.7)),
                   ),
                   SizedBox(width: 8),
                   Text(
                     'Tap any grade to start your math journey',
                     style: TextStyle(
                       fontSize: 14,
-                      color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.7),
+                      color: (isDarkMode ? Color.fromRGBO(255,255,255,0.7) : Color.fromRGBO(0,0,0,0.7)),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -374,7 +375,7 @@ class GradeCard extends StatelessWidget {
   final bool isDesktop;
   final VoidCallback onTap;
 
-  const GradeCard({
+  const GradeCard({super.key,
     required this.grade,
     required this.color,
     required this.icon,
@@ -398,7 +399,7 @@ class GradeCard extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(isTablet ? 24 : 20),
-          splashColor: color.withOpacity(0.3),
+          splashColor: Color.fromRGBO(color.red, color.green, color.blue, 0.3),
           highlightColor: Colors.transparent,
           child: Container(
             decoration: BoxDecoration(
@@ -407,7 +408,7 @@ class GradeCard extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   color,
-                  color.withOpacity(0.8),
+                  Color.fromRGBO(color.red, color.green, color.blue,0.8),
                   color.withBlue((color.blue + 40).clamp(0, 255)),
                 ],
                 stops: [0.0, 0.5, 1.0],
@@ -415,13 +416,13 @@ class GradeCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(isTablet ? 24 : 20),
               boxShadow: [
                 BoxShadow(
-                  color: color.withOpacity(isDarkMode ? 0.4 : 0.3),
+                  color: Color.fromRGBO(color.red, color.green, color.blue,isDarkMode ? 0.4 : 0.3),
                   blurRadius: isTablet ? 20 : 15,
                   spreadRadius: -3,
                   offset: Offset(0, isTablet ? 8 : 6),
                 ),
                 BoxShadow(
-                  color: color.withOpacity(isDarkMode ? 0.2 : 0.15),
+                  color: Color.fromRGBO(color.red, color.green, color.blue,isDarkMode ? 0.2 : 0.15),
                   blurRadius: isTablet ? 35 : 25,
                   spreadRadius: -8,
                   offset: Offset(0, isTablet ? 15 : 12),
@@ -441,7 +442,7 @@ class GradeCard extends StatelessWidget {
                       height: isTablet ? 120 : 100,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.08),
+                        color: Color.fromRGBO(255,255,255,0.08),
                       ),
                     ),
                   ),
@@ -453,7 +454,7 @@ class GradeCard extends StatelessWidget {
                       height: isTablet ? 80 : 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.05),
+                        color: Color.fromRGBO(255,255,255,0.05),
                       ),
                     ),
                   ),
@@ -465,7 +466,7 @@ class GradeCard extends StatelessWidget {
                       height: isTablet ? 80 : 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.06),
+                        color: Color.fromRGBO(255,255,255,0.06),
                       ),
                     ),
                   ),
@@ -480,15 +481,15 @@ class GradeCard extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(isTablet ? 14 : 12),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Color.fromRGBO(255, 255, 255, 0.2),
                             borderRadius: BorderRadius.circular(isTablet ? 16 : 14),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.1),
+                              color: Color.fromRGBO(255,255,255,0.1),
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                                color: Color.fromRGBO(0, 0, 0, 0.1),
                                 blurRadius: 8,
                                 offset: Offset(0, 2),
                               ),
@@ -513,7 +514,7 @@ class GradeCard extends StatelessWidget {
                             letterSpacing: 0.5,
                             shadows: [
                               Shadow(
-                                color: Colors.black.withOpacity(0.3),
+                                color: Color.fromRGBO(0, 0, 0, 0.3),
                                 offset: Offset(1, 1),
                                 blurRadius: 2,
                               ),
@@ -528,7 +529,7 @@ class GradeCard extends StatelessWidget {
                           'Tap to start',
                           style: TextStyle(
                             fontSize: subtitleFontSize,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Color.fromRGBO(255, 255, 255, 0.8),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -538,14 +539,14 @@ class GradeCard extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.15),
+                              color: Color.fromRGBO(255, 255, 255, 0.15),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
                               'Begin learning',
                               style: TextStyle(
                                 fontSize: 10,
-                                color: Colors.white.withOpacity(0.9),
+                                color: Color.fromRGBO(255, 255, 255, 0.9),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),

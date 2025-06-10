@@ -96,8 +96,8 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: themeProvider.isNightModeOn
-              ? Colors.white.withOpacity(0.8)
-              : Colors.black.withOpacity(0.8),
+              ? Color.fromRGBO(255,255,255,0.8)
+              : Color.fromRGBO(0,0,0,0.8),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -112,7 +112,7 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Color.fromRGBO(0, 0, 0, 0.2),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -125,7 +125,7 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Color.fromRGBO(255, 255, 255, 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(
@@ -152,7 +152,7 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white.withOpacity(0.85),
+                    color: Color.fromRGBO(255, 255, 255,0.85),
                   ),
                 ),
               ],
@@ -169,7 +169,7 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
           Container(
             margin: const EdgeInsets.only(right: 8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Color.fromRGBO(255, 255, 255, 0.15),
               borderRadius: BorderRadius.circular(10),
             ),
             child: IconButton(
@@ -253,8 +253,8 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
         boxShadow: [
           BoxShadow(
             color: isDarkMode
-                ? Colors.black.withOpacity(0.3)
-                : Colors.grey.withOpacity(0.2),
+                ? Color.fromRGBO(0, 0, 0,0.3)
+                : Color.fromRGBO(158,158,158,0.2),
             offset: const Offset(0, 4),
             blurRadius: 8,
           ),
@@ -297,8 +297,9 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isDarkMode
-                        ? Colors.deepPurple.withOpacity(0.2)
-                        : Colors.deepPurple.withOpacity(0.1),
+                        ? Color.fromRGBO(103, 58, 183, 0.2) // Deep Purple with 20% opacity
+                        : Color.fromRGBO(103, 58, 183, 0.1) // Deep Purple with 10% opacity
+
                   ),
                   child: Icon(
                     Icons.arrow_forward_ios_rounded,
@@ -385,12 +386,12 @@ class _WaveBackgroundState extends State<WaveBackground> with SingleTickerProvid
                     gradient: LinearGradient(
                       colors: widget.isDarkMode
                           ? [
-                        const Color(0xFF512DA8).withOpacity(0.7),
-                        const Color(0xFF673AB7).withOpacity(0.5),
+                        Color.fromRGBO(81, 45, 168, 0.7),
+                        Color.fromRGBO(103, 58, 183, 0.5)
                       ]
                           : [
-                        const Color(0xFF64B5F6).withOpacity(0.7),
-                        const Color(0xFF90CAF9).withOpacity(0.5),
+                        Color.fromRGBO(100, 181, 246, 0.7),
+                        Color.fromRGBO(144, 202, 249, 0.5)
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -412,9 +413,9 @@ class _WaveBackgroundState extends State<WaveBackground> with SingleTickerProvid
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white.withOpacity(0.2),
-                      Colors.white.withOpacity(0.1),
-                      Colors.white.withOpacity(0),
+                      Color.fromRGBO(255,255,255,0.2),
+                      Color.fromRGBO(255,255,255,0.1),
+                      Color.fromRGBO(255,255,255,0),
                     ],
                   ),
                 ),

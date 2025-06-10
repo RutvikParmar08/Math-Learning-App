@@ -136,8 +136,8 @@ class _SplashScreenState extends State<SplashScreen>
                         boxShadow: [
                           BoxShadow(
                             color: isDarkMode
-                                ? Colors.black.withOpacity(0.5)
-                                : Colors.black.withOpacity(0.15),
+                                ? Color.fromRGBO(0,0,0,0.5)
+                                : Color.fromRGBO(0,0,0,0.15),
                             blurRadius: 25,
                             spreadRadius: 8,
                             offset: Offset(0, 10),

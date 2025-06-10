@@ -180,8 +180,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                                 'Choose your challenge level',
                                 style: TextStyle(
                                   fontSize: fontSize * 0.4,
-                                  color: (isDarkMode ? Colors.white : Colors.black87)
-                                      .withOpacity(0.7),
+                                  color: (isDarkMode ? Color.fromRGBO(255, 255, 255, 0.7) : Color.fromRGBO(0, 0, 0, 0.7)),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -193,8 +192,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         Container(
                           padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: (isDarkMode ? Colors.white : Colors.black)
-                                .withOpacity(0.1),
+                            color: (isDarkMode ? Color.fromRGBO(255, 255, 255, 0.1) : Color.fromRGBO(0, 0, 0, 0.1)),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Icon(
@@ -364,7 +362,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             );
           },
           borderRadius: BorderRadius.circular(isTablet ? 28 : 24),
-          splashColor: color.withOpacity(0.3),
+          splashColor: Color.fromRGBO(color.red, color.green, color.blue, 0.3),
           highlightColor: Colors.transparent,
           child: Container(
             decoration: BoxDecoration(
@@ -373,7 +371,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 end: Alignment.bottomRight,
                 colors: [
                   color,
-                  color.withOpacity(0.8),
+                  Color.fromRGBO(color.red, color.green, color.blue, 0.8),
                   color.withBlue((color.blue + 30).clamp(0, 255)),
                 ],
                 stops: [0.0, 0.5, 1.0],
@@ -381,13 +379,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
               borderRadius: BorderRadius.circular(isTablet ? 28 : 24),
               boxShadow: [
                 BoxShadow(
-                  color: color.withOpacity(isDarkMode ? 0.4 : 0.25),
+                  color: Color.fromRGBO(color.red, color.green, color.blue,isDarkMode ? 0.4 : 0.25),
                   blurRadius: isTablet ? 25 : 20,
                   spreadRadius: -3,
                   offset: Offset(0, isTablet ? 12 : 10),
                 ),
                 BoxShadow(
-                  color: color.withOpacity(isDarkMode ? 0.2 : 0.1),
+                  color: Color.fromRGBO(color.red, color.green, color.blue,isDarkMode ? 0.2 : 0.1),
                   blurRadius: isTablet ? 40 : 30,
                   spreadRadius: -10,
                   offset: Offset(0, isTablet ? 20 : 15),
@@ -407,7 +405,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       height: isTablet ? 130 : 100,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.08),
+                        color: Color.fromRGBO(255, 255, 255, 0.08),
                       ),
                     ),
                   ),
@@ -419,7 +417,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       height: isTablet ? 80 : 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.05),
+                        color: Color.fromRGBO(255, 255, 255, 0.05),
                       ),
                     ),
                   ),
@@ -431,7 +429,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       height: isTablet ? 90 : 70,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.06),
+                        color: Color.fromRGBO(255, 255, 255, 0.06),
                       ),
                     ),
                   ),
@@ -446,10 +444,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         Container(
                           padding: EdgeInsets.all(isTablet ? 14 : 10),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Color.fromRGBO(255, 255, 255, 0.2),
                             borderRadius: BorderRadius.circular(isTablet ? 18 : 14),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.1),
+                              color: Color.fromRGBO(255, 255, 255, 0.1),
                               width: 1,
                             ),
                           ),
@@ -480,7 +478,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                             letterSpacing: 0.5,
                             shadows: [
                               Shadow(
-                                color: Colors.black.withOpacity(0.3),
+                                color: Color.fromRGBO(0, 0, 0, 0.3),
                                 offset: Offset(1, 1),
                                 blurRadius: 2,
                               ),
@@ -498,7 +496,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                             subtitle,
                             style: TextStyle(
                               fontSize: descriptionFontSize,
-                              color: Colors.white.withOpacity(0.8),
+                              color: Color.fromRGBO(255, 255, 255, 0.8),
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 1,
@@ -511,7 +509,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                           description,
                           style: TextStyle(
                             fontSize: descriptionFontSize - (isTablet ? 1 : 0),
-                            color: Colors.white.withOpacity(0.7),
+                            color: Color.fromRGBO(255, 255, 255, 0.7),
                             fontWeight: FontWeight.w400,
                           ),
                           maxLines: 1,
@@ -523,14 +521,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.15),
+                              color: Color.fromRGBO(255, 255, 255, 0.15),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
                               'Tap to play',
                               style: TextStyle(
                                 fontSize: 10,
-                                color: Colors.white.withOpacity(0.9),
+                                color: Color.fromRGBO(255, 255, 255, 0.9),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -555,10 +553,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       margin: EdgeInsets.all(padding),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
-        color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.05),
+        color: (isDarkMode ? Color.fromRGBO(255, 255, 255, 0.05) : Color.fromRGBO(0, 0, 0, 0.05)),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.1),
+          color: (isDarkMode ? Color.fromRGBO(255, 255, 255, 0.1) : Color.fromRGBO(0, 0, 0, 0.1)),
           width: 1,
         ),
       ),
@@ -568,14 +566,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           Icon(
             Icons.info_outline,
             size: 16,
-            color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.7),
+            color: (isDarkMode ? Color.fromRGBO(255, 255, 255, 0.7) : Color.fromRGBO(0, 0, 0, 0.7)),
           ),
           SizedBox(width: 8),
           Text(
             'Swipe and tap to explore different game modes',
             style: TextStyle(
               fontSize: 14,
-              color: (isDarkMode ? Colors.white : Colors.black).withOpacity(0.7),
+              color: (isDarkMode ? Color.fromRGBO(255, 255, 255, 0.7 ) : Color.fromRGBO(0, 0, 0, 0.7)),
               fontWeight: FontWeight.w500,
             ),
           ),

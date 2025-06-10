@@ -97,7 +97,7 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
       },
       {
         'title': 'Multiplication',
-        'icon': FontAwesomeIcons.times,
+        'icon': FontAwesomeIcons.xmark,
         'color': themeProvider.isNightModeOn ? Color(0xFFFFCA28) : Color(0xFF4CAF50),
         'route': ArithmeticOperationsPage(grade: widget.gradeNumber, operation: 'Multiplication',),
         'description': 'Learn multiplication',
@@ -133,8 +133,8 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(
                 themeProvider.isNightModeOn
-                    ? Colors.black.withOpacity(0.7)
-                    : Colors.black.withOpacity(0.2),
+                    ? Color.fromRGBO(0,0,0,0.7)
+                    : Color.fromRGBO(0,0,0,0.2),
                 BlendMode.darken,
               ),
             ),
@@ -149,7 +149,7 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Color.fromRGBO(255, 255, 255, 0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
@@ -187,10 +187,10 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                   margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
-                    color:themeProvider.isNightModeOn ? Colors.white.withOpacity(0.5) :Colors.black.withOpacity(0.3),
+                    color:themeProvider.isNightModeOn ? Color.fromRGBO(255, 255, 255, 0.5) :Color.fromRGBO(0,0,0,0.3),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Color.fromRGBO(255, 255, 255, 0.2),
                       width: 1,
                     ),
                   ),
@@ -199,7 +199,7 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                       Container(
                         padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Color.fromRGBO(255, 255, 255, 0.2),
                           shape: BoxShape.circle,
                         ),
                         child: Text(
@@ -320,7 +320,7 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                   ),
                 ],
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Color.fromRGBO(255, 255, 255, 0.2),
                   width: 1.5,
                 ),
               ),
@@ -330,7 +330,7 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Color.fromRGBO(255, 255, 255, 0.2),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -365,7 +365,7 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                           description,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Color.fromRGBO(255, 255, 255, 0.9),
                           ),
                         ),
                       ],

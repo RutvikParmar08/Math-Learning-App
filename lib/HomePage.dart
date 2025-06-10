@@ -133,7 +133,7 @@ class _MathBlastPageState extends State<MathBlastHomePage> {
           borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
           color: _selectedIndex == index
               ? (themeProvider.isNightModeOn
-              ? Colors.white.withOpacity(0.1)
+              ? Color.fromRGBO(255,255,255,0.1)
               : Colors.blue.withOpacity(0.1))
               : Colors.transparent,
         ),

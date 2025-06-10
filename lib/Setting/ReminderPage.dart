@@ -56,14 +56,16 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
     _bodyController.dispose();
     super.dispose();
   }
+
   //#endregion
 
   //#region Load Alarms, Add Alarm, and Delete Alarm
   void _loadAlarms() {
     setState(() {
-      alarms = LocalNotifications.getActiveAlarms()
-          .where((alarm) => alarm['type'] != 'four_hour')
-          .toList();
+      alarms =
+          LocalNotifications.getActiveAlarms()
+              .where((alarm) => alarm['type'] != 'four_hour')
+              .toList();
     });
   }
 
@@ -86,13 +88,14 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
         alarmBody = (notificationMessages..shuffle()).first;
       }
 
-      final notificationId = await LocalNotifications.showDailyNotificationAtTime(
-        title: 'Reminder',
-        body: alarmBody,
-        payload: 'daily_alarm_data',
-        time: _selectedTime,
-        context: context,
-      );
+      final notificationId =
+          await LocalNotifications.showDailyNotificationAtTime(
+            title: 'Reminder',
+            body: alarmBody,
+            payload: 'daily_alarm_data',
+            time: _selectedTime,
+            context: context,
+          );
 
       if (mounted) {
         if (notificationId != -1) {
@@ -112,7 +115,9 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
               ),
               backgroundColor: Colors.green,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               duration: const Duration(seconds: 3),
             ),
           );
@@ -125,12 +130,17 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                 children: [
                   const Icon(Icons.error, color: Colors.white),
                   const SizedBox(width: 8),
-                  const Text('Failed to set alarm', style: TextStyle(fontSize: 16)),
+                  const Text(
+                    'Failed to set alarm',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ],
               ),
               backgroundColor: Colors.red,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           );
         }
@@ -169,7 +179,14 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Cancel',
-                style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
+                style: TextStyle(
+                  color: Color.fromRGBO(
+                    colorScheme.onSurface.red,
+                    colorScheme.onSurface.green,
+                    colorScheme.onSurface.blue,
+                    0.6,
+                  ),
+                ),
               ),
             ),
             ElevatedButton(
@@ -210,28 +227,30 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
       },
     );
   }
+
   //#endregion
 
   //#region Get theme-aware colors
   ColorScheme _getColorScheme(bool isDark) {
     return isDark
         ? const ColorScheme.dark(
-      primary: Color(0xFF60A5FA),
-      secondary: Color(0xFF3B82F6),
-      surface: Color(0xFF1F2937),
-      background: Color(0xFF111827),
-      onBackground: Colors.white,
-      onSurface: Colors.white,
-    )
+          primary: Color(0xFF60A5FA),
+          secondary: Color(0xFF3B82F6),
+          surface: Color(0xFF1F2937),
+          background: Color(0xFF111827),
+          onSurface: Colors.white,
+          onBackground: Colors.white,
+        )
         : const ColorScheme.light(
-      primary: Color(0xFF3B82F6),
-      secondary: Color(0xFF1D4ED8),
-      surface: Colors.white,
-      background: Color(0xFFF9FAFB),
-      onBackground: Color(0xFF111827),
-      onSurface: Color(0xFF111827),
-    );
+          primary: Color(0xFF3B82F6),
+          secondary: Color(0xFF1D4ED8),
+          surface: Colors.white,
+          background: Color(0xFFF9FAFB),
+          onSurface: Color(0xFF111827),
+          onBackground: Color(0xFF111827),
+        );
   }
+
   //#endregion
 
   //#region Check and show dialog
@@ -244,56 +263,74 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
 
       await showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: colorScheme.surface,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Row(
-            children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 28),
-              const SizedBox(width: 1),
-              Text(
-                'Permission Required',
-                style: TextStyle(color: colorScheme.onSurface),
+        builder:
+            (context) => AlertDialog(
+              backgroundColor: colorScheme.surface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-            ],
-          ),
-          content: Text(
-            'To ensure precise notification timing, please allow exact alarms in settings.',
-            style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                permissionGranted = false; // User canceled
-              },
-              child: Text(
-                'Later',
-                style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.orange,
+                    size: 28,
+                  ),
+                  const SizedBox(width: 1),
+                  Text(
+                    'Permission Required',
+                    style: TextStyle(color: colorScheme.onSurface),
+                  ),
+                ],
               ),
+              content: Text(
+                'To ensure precise notification timing, please allow exact alarms in settings.',
+                style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    permissionGranted = false; // User canceled
+                  },
+                  child: Text(
+                    'Later',
+                    style: TextStyle(
+                        color: Color.fromRGBO(
+                          colorScheme.onSurface.red,
+                          colorScheme.onSurface.green,
+                          colorScheme.onSurface.blue,
+                          0.6,
+                        )
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await openAppSettings();
+                    // Check if permission was granted after opening settings
+                    permissionGranted =
+                        await Permission.scheduleExactAlarm.isGranted;
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text('Open Settings'),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                await openAppSettings();
-                // Check if permission was granted after opening settings
-                permissionGranted = await Permission.scheduleExactAlarm.isGranted;
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              child: const Text('Open Settings'),
-            ),
-          ],
-        ),
       );
 
       return permissionGranted;
     }
     return true; // Permission already granted
   }
+
   //#endregion
 
   //#region Time Picker
@@ -307,10 +344,13 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
         return Theme(
           data: Theme.of(context).copyWith(
             timePickerTheme: TimePickerThemeData(
-              backgroundColor: themeProvider.isNightModeOn
-                  ? const Color(0xFF1F2937)
-                  : Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              backgroundColor:
+                  themeProvider.isNightModeOn
+                      ? const Color(0xFF1F2937)
+                      : Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
           ),
           child: child!,
@@ -326,6 +366,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
     }
     return false; // User canceled
   }
+
   //#endregion
 
   //#region Page UI
@@ -345,13 +386,13 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            foregroundColor: colorScheme.onBackground,
+            foregroundColor: colorScheme.onSurface,
             title: Text(
               'Reminder',
               style: TextStyle(
                 fontSize: isTablet ? 28 : 24,
                 fontWeight: FontWeight.bold,
-                color: colorScheme.onBackground,
+                color: colorScheme.onSurface,
               ),
             ),
             centerTitle: true,
@@ -373,7 +414,11 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildMobileLayout(ColorScheme colorScheme, double screenWidth, bool isTablet) {
+  Widget _buildMobileLayout(
+    ColorScheme colorScheme,
+    double screenWidth,
+    bool isTablet,
+  ) {
     return Column(
       children: [
         _buildAddAlarmSection(colorScheme, screenWidth, isTablet),
@@ -381,21 +426,31 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
         Container(
           margin: EdgeInsets.symmetric(horizontal: isTablet ? 32 : 24),
           height: 1,
-          color: colorScheme.onBackground.withOpacity(0.1),
+          color: Color.fromRGBO(
+            colorScheme.onSurface.red,
+            colorScheme.onSurface.green,
+            colorScheme.onSurface.blue,
+            0.1,
+          ),
         ),
 
         Expanded(
-          child: alarms.isEmpty
-              ? _buildEmptyState(colorScheme, isTablet)
-              : _buildAlarmsList(colorScheme, isTablet),
+          child:
+              alarms.isEmpty
+                  ? _buildEmptyState(colorScheme, isTablet)
+                  : _buildAlarmsList(colorScheme, isTablet),
         ),
       ],
     );
   }
+
   //#endregion
 
   //#region Tablet UI
-  Widget _buildTabletLandscapeLayout(ColorScheme colorScheme, double screenWidth) {
+  Widget _buildTabletLandscapeLayout(
+    ColorScheme colorScheme,
+    double screenWidth,
+  ) {
     return Row(
       children: [
         // Left side - Add Alarm Section
@@ -408,23 +463,34 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
         Container(
           width: 1,
           margin: const EdgeInsets.symmetric(vertical: 24),
-          color: colorScheme.onBackground.withOpacity(0.1),
+          color: Color.fromRGBO(
+            colorScheme.onSurface.red,
+            colorScheme.onSurface.green,
+            colorScheme.onSurface.blue,
+            0.1,
+          ),
         ),
 
         // Right side - Alarms List
         Expanded(
           flex: 3,
-          child: alarms.isEmpty
-              ? _buildEmptyState(colorScheme, true)
-              : _buildAlarmsList(colorScheme, true),
+          child:
+              alarms.isEmpty
+                  ? _buildEmptyState(colorScheme, true)
+                  : _buildAlarmsList(colorScheme, true),
         ),
       ],
     );
   }
+
   //#endregion
 
   //#region Add Alarm Section
-  Widget _buildAddAlarmSection(ColorScheme colorScheme, double width, bool isTablet) {
+  Widget _buildAddAlarmSection(
+    ColorScheme colorScheme,
+    double width,
+    bool isTablet,
+  ) {
     return Padding(
       padding: EdgeInsets.all(isTablet ? 32.0 : 24.0),
       child: Column(
@@ -444,7 +510,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: colorScheme.primary.withOpacity(0.3),
+                    color: Color.fromRGBO(
+                      colorScheme.primary.red,
+                      colorScheme.primary.green,
+                      colorScheme.primary.blue,
+                      0.3,
+                    ),
                     blurRadius: 15,
                     offset: const Offset(0, 8),
                   ),
@@ -459,13 +530,20 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
           ),
           SizedBox(height: isTablet ? 15 : 11),
           Container(
-            constraints: BoxConstraints(maxWidth: isTablet ? 400 : double.infinity),
+            constraints: BoxConstraints(
+              maxWidth: isTablet ? 400 : double.infinity,
+            ),
             decoration: BoxDecoration(
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: colorScheme.onBackground.withOpacity(0.05),
+                  color: Color.fromRGBO(
+                    colorScheme.onSurface.red,
+                    colorScheme.onSurface.green,
+                    colorScheme.onSurface.blue,
+                    0.05,
+                  ),
                   blurRadius: 10,
                   offset: const Offset(0, 5),
                 ),
@@ -482,7 +560,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
               decoration: InputDecoration(
                 hintText: 'What would you like to be reminded about?',
                 hintStyle: TextStyle(
-                  color: colorScheme.onSurface.withOpacity(0.5),
+                  color: Color.fromRGBO(
+                    colorScheme.onSurface.red,
+                    colorScheme.onSurface.green,
+                    colorScheme.onSurface.blue,
+                    0.5,
+                  ),
                   fontSize: isTablet ? 16 : 14,
                 ),
                 border: OutlineInputBorder(
@@ -508,7 +591,9 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
             scale: _scaleAnimation,
             child: Container(
               width: double.infinity,
-              constraints: BoxConstraints(maxWidth: isTablet ? 400 : double.infinity),
+              constraints: BoxConstraints(
+                maxWidth: isTablet ? 400 : double.infinity,
+              ),
               height: isTablet ? 60 : 50,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -519,7 +604,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: colorScheme.primary.withOpacity(0.3),
+                    color: Color.fromRGBO(
+                      colorScheme.primary.red,
+                      colorScheme.primary.green,
+                      colorScheme.primary.blue,
+                      0.3,
+                    ),
                     blurRadius: 10,
                     offset: const Offset(0, 5),
                   ),
@@ -559,6 +649,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
       ),
     );
   }
+
   //#endregion
 
   //#region Empty State
@@ -570,13 +661,23 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
           Container(
             padding: EdgeInsets.all(isTablet ? 32 : 24),
             decoration: BoxDecoration(
-              color: colorScheme.primary.withOpacity(0.1),
+              color: Color.fromRGBO(
+                colorScheme.primary.red,
+                colorScheme.primary.green,
+                colorScheme.primary.blue,
+                0.1,
+              ),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.alarm_off,
               size: isTablet ? 80 : 60,
-              color: colorScheme.primary.withOpacity(0.6),
+              color: Color.fromRGBO(
+                colorScheme.primary.red,
+                colorScheme.primary.green,
+                colorScheme.primary.blue,
+                0.6,
+              ),
             ),
           ),
           SizedBox(height: isTablet ? 20 : 16),
@@ -585,7 +686,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
             style: TextStyle(
               fontSize: isTablet ? 24 : 20,
               fontWeight: FontWeight.bold,
-              color: colorScheme.onBackground.withOpacity(0.8),
+                color: Color.fromRGBO(
+                  colorScheme.onSurface.red,
+                  colorScheme.onSurface.green,
+                  colorScheme.onSurface.blue,
+                  0.8,
+                )
             ),
           ),
           SizedBox(height: isTablet ? 12 : 8),
@@ -593,7 +699,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
             'Your alarms will appear here when you create them',
             style: TextStyle(
               fontSize: isTablet ? 16 : 14,
-              color: colorScheme.onBackground.withOpacity(0.6),
+                color: Color.fromRGBO(
+                  colorScheme.onSurface.red,
+                  colorScheme.onSurface.green,
+                  colorScheme.onSurface.blue,
+                  0.6,
+                )
             ),
             textAlign: TextAlign.center,
           ),
@@ -601,6 +712,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
       ),
     );
   }
+
   //#endregion
 
   //#region Alarms List
@@ -620,7 +732,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
               Text(
                 '${alarms.length} active alarm${alarms.length != 1 ? 's' : ''}',
                 style: TextStyle(
-                  color: colorScheme.onBackground.withOpacity(0.7),
+                  color: Color.fromRGBO(
+                    colorScheme.onSurface.red,
+                    colorScheme.onSurface.green,
+                    colorScheme.onSurface.blue,
+                    0.7,
+                  ),
                   fontSize: isTablet ? 16 : 14,
                   fontWeight: FontWeight.w600,
                 ),
@@ -640,7 +757,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(bottom: isTablet ? 16 : 12),
                 child: Card(
                   elevation: 2,
-                  shadowColor: colorScheme.onBackground.withOpacity(0.1),
+                  shadowColor: Color.fromRGBO(
+                    colorScheme.onSurface.red,
+                    colorScheme.onSurface.green,
+                    colorScheme.onSurface.blue,
+                    0.1,
+                  ),
                   color: colorScheme.surface,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -651,7 +773,13 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                       gradient: LinearGradient(
                         colors: [
                           colorScheme.surface,
-                          colorScheme.primary.withOpacity(0.05),
+                          Color.fromRGBO(
+                            colorScheme.primary.red,
+                            colorScheme.primary.green,
+                            colorScheme.primary.blue,
+                            0.05,
+                          ),
+
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -663,7 +791,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                         width: isTablet ? 56 : 48,
                         height: isTablet ? 56 : 48,
                         decoration: BoxDecoration(
-                          color: colorScheme.primary.withOpacity(0.1),
+                          color: Color.fromRGBO(
+                            colorScheme.primary.red,
+                            colorScheme.primary.green,
+                            colorScheme.primary.blue,
+                            0.1,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
@@ -679,7 +812,8 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                           fontWeight: FontWeight.bold,
                           color: colorScheme.onSurface,
                         ),
-                        overflow: TextOverflow.ellipsis, // Prevent title overflow
+                        overflow: TextOverflow.ellipsis,
+                        // Prevent title overflow
                         maxLines: 1,
                       ),
                       subtitle: Container(
@@ -689,7 +823,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                           vertical: isTablet ? 6 : 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.1),
+                            color: Color.fromRGBO(76, 175, 80, 0.1), // Colors.green
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
@@ -710,7 +844,8 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                                   fontWeight: FontWeight.w600,
                                   fontSize: isTablet ? 14 : 12,
                                 ),
-                                overflow: TextOverflow.ellipsis, // Handle long text
+                                overflow: TextOverflow.ellipsis,
+                                // Handle long text
                                 maxLines: 1,
                               ),
                             ),
@@ -719,7 +854,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
                       ),
                       trailing: Container(
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.1),
+                          color: Color.fromRGBO(244, 67, 54, 0.1), // Colors.red,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: IconButton(
@@ -742,5 +877,6 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
       ],
     );
   }
-//#endregion
+
+  //#endregion
 }
