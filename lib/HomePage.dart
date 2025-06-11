@@ -134,7 +134,7 @@ class _MathBlastPageState extends State<MathBlastHomePage> {
           color: _selectedIndex == index
               ? (themeProvider.isNightModeOn
               ? Color.fromRGBO(255,255,255,0.1)
-              : Colors.blue.withOpacity(0.1))
+              : Color.fromRGBO(33,150,243,0.1))
               : Colors.transparent,
         ),
         padding: EdgeInsets.symmetric(
@@ -280,8 +280,8 @@ class HomeScreen extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: themeProvider.isNightModeOn
-                      ? Colors.black.withOpacity(0.4)
-                      : Colors.blue.shade200.withOpacity(0.3),
+                      ? Color.fromRGBO(0,0,0,0.4)
+                      : Color.fromRGBO(144, 202, 249, 0.3),
                   blurRadius: 15,
                   spreadRadius: 2,
                   offset: Offset(0, 5),
@@ -324,8 +324,8 @@ class HomeScreen extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: themeProvider.isNightModeOn
-                ? Colors.black.withOpacity(0.4)
-                : Colors.blue.shade200.withOpacity(0.3),
+                ? Color.fromRGBO(0,0,0,0.4)
+                :Color.fromRGBO(144, 202, 249, 0.3),
             blurRadius: 15,
             spreadRadius: 2,
             offset: Offset(0, 5),
@@ -353,8 +353,9 @@ class HomeScreen extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: themeProvider.isNightModeOn
-                  ? Colors.orange.shade700.withOpacity(0.3)
-                  : Colors.orange.shade100.withOpacity(0.5),
+                  ? Color.fromRGBO(245, 124, 0, 0.3)       // orange.shade700
+                  : Color.fromRGBO(255, 224, 178, 0.5)     // orange.shade100
+
             ),
           ),
         ),
@@ -367,8 +368,9 @@ class HomeScreen extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: themeProvider.isNightModeOn
-                  ? Colors.purple.shade700.withOpacity(0.3)
-                  : Colors.purple.shade100.withOpacity(0.5),
+                  ? Color.fromRGBO(123, 31, 162, 0.3) // Purple.shade700
+                  : Color.fromRGBO(225, 190, 231, 0.5) // Purple.shade100
+
             ),
           ),
         ),
@@ -478,8 +480,9 @@ class HomeScreen extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: themeProvider.isNightModeOn
-                  ? Colors.black.withOpacity(0.5)
-                  : Colors.orange.shade200.withOpacity(0.7),
+                  ? Color.fromRGBO(0, 0, 0, 0.5)
+                  : Color.fromRGBO(255, 204, 128, 0.7), //Orange.shade400
+
               blurRadius: isDesktop ? 25 : 20,
               spreadRadius: 5,
               offset: Offset(0, 10),
@@ -497,7 +500,7 @@ class HomeScreen extends StatelessWidget {
                 height: isDesktop ? 180 : (isTablet ? 150 : 120),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.2),
+                  color: Color.fromRGBO(255, 255, 255, 0.2),
                 ),
               ),
             ),
@@ -509,7 +512,7 @@ class HomeScreen extends StatelessWidget {
                 height: isDesktop ? 120 : (isTablet ? 100 : 80),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.15),
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
                 ),
               ),
             ),
@@ -529,8 +532,9 @@ class HomeScreen extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           color: themeProvider.isNightModeOn
-                              ? Colors.deepOrange.shade900.withOpacity(0.5)
-                              : Colors.orange.shade300.withOpacity(0.5),
+                              ? Color.fromRGBO(191, 54, 12, 0.5) // Orange.shade400
+                              : Color.fromRGBO(255, 183, 77, 0.5), // Orange.shade400
+
                           blurRadius: 15,
                           spreadRadius: 2,
                           offset: Offset(0, 7),
@@ -574,7 +578,7 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: descriptionSize,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Color.fromRGBO(255, 255, 255, 0.9),
                         height: 1.5,
                       ),
                       maxLines: isLandscape ? 2 : 3,
@@ -596,8 +600,9 @@ class HomeScreen extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           color: themeProvider.isNightModeOn
-                              ? Colors.deepOrange.shade900.withOpacity(0.3)
-                              : Colors.orange.shade300.withOpacity(0.3),
+                              ? Color.fromRGBO(191, 54, 12, 0.3)  // Orange.shade400
+                              : Color.fromRGBO(255, 183, 77, 0.3) , // Orange.shade400
+
                           blurRadius: 8,
                           spreadRadius: 1,
                           offset: Offset(0, 4),
@@ -644,8 +649,8 @@ class HomeScreen extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white.withOpacity(0.3),
-                      Colors.white.withOpacity(0),
+                      Color.fromRGBO(255, 255, 255, 0.3),
+                      Color.fromRGBO(255, 255, 255, 0),
                     ],
                   ),
                   borderRadius: BorderRadius.only(

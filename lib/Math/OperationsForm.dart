@@ -391,168 +391,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
       ],
     );
   }
-  //#endregion
-
-  //#region Page UI
-  @override
-  Widget build(BuildContext context) {
-    final isDarkMode = Provider.of<ThemeProvider>(context).isNightModeOn;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fontSize = screenWidth * 0.06;
-    final padding = screenWidth * 0.04;
-
-    return WillPopScope(
-      onWillPop: _showExitConfirmationDialog,
-      child: SafeArea(
-        child: Scaffold(
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: isDarkMode
-                    ? [Colors.blueGrey.shade900, Colors.black87]
-                    : [ Color.fromRGBO(0, 150, 136, 0.8),  // Colors.teal
-                        Color.fromRGBO(33, 150, 243, 0.8), // Colors.blue
-                      ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-              image: DecorationImage(
-                image: const AssetImage('assets/BackGround/Background.jpeg'),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                  isDarkMode ? Color.fromRGBO(0,0,0,0.7) : Color.fromRGBO(0,0,0,0.2),
-                  BlendMode.darken,
-                ),
-              ),
-            ),
-            child: Column(
-              children: [
-                // Custom AppBar
-                Container(
-                  padding: EdgeInsets.all(padding),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: isDarkMode
-                          ? [Colors.black87, Colors.blueGrey.shade900]
-                          : [Colors.deepPurple.shade700, Colors.deepPurple.shade900],
-                    ),
-                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(0,0,0,0.2),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          if (await _showExitConfirmationDialog()) Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(padding * 0.5),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: isDarkMode ? Colors.grey.shade800 : Colors.white,
-                          ),
-                          child: Icon(
-                            Icons.close,
-                            color: isDarkMode ? Colors.tealAccent : Colors.deepPurple,
-                            size: fontSize * 0.8,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          child: Text(
-                            widget.title,
-                            key: ValueKey(widget.title),
-                            style: TextStyle(
-                              fontSize: fontSize * 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: padding * 2),
-                    ],
-                  ),
-                ),
-                // Attempts Indicator
-                Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: List.generate(
-                      _maxWrongAttempts,
-                          (index) => Icon(
-                        index < _wrongAnswerCount ? Icons.close : Icons.favorite,
-                        color: index < _wrongAnswerCount ? Colors.red : Colors.red,
-                        size: fontSize * 0.6,
-                      ),
-                    ),
-                  ),
-                ),
-                // Main Content
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Padding(
-                          padding: EdgeInsets.all(padding),
-                          child: Column(
-                            children: [
-                              if (number1 != null) _buildProblemBox(context),
-                              Padding(
-                                padding: EdgeInsets.all(padding),
-                                child: GestureDetector(
-                                  onTap: _submitAnswer,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: padding,
-                                      horizontal: padding,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: isDarkMode ? Colors.tealAccent : Colors.deepPurple,
-                                      borderRadius: BorderRadius.circular(100),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 5,
-                                          offset: Offset(2, 4),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Image.asset(
-                                      'assets/icons/next.png',
-                                      width: fontSize * 0.8,
-                                      height: fontSize * 0.8,
-                                      color: isDarkMode ? Colors.black : Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-  //#endregion
+  //#endregion\
 
   //#region Submit Answer
   void _submitAnswer() {
@@ -926,4 +765,166 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
     ) ?? false;
   }
 //#endregion
+
+  //#region Page UI
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isNightModeOn;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fontSize = screenWidth * 0.06;
+    final padding = screenWidth * 0.04;
+
+    return SafeArea(
+      child: WillPopScope(
+        onWillPop: _showExitConfirmationDialog,
+        child: Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: isDarkMode
+                    ? [Colors.blueGrey.shade900, Colors.black87]
+                    : [ Color.fromRGBO(0, 150, 136, 0.8),  // Colors.teal
+                        Color.fromRGBO(33, 150, 243, 0.8), // Colors.blue
+                      ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              image: DecorationImage(
+                image: const AssetImage('assets/BackGround/Background.jpeg'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  isDarkMode ? Color.fromRGBO(0,0,0,0.7) : Color.fromRGBO(0,0,0,0.2),
+                  BlendMode.darken,
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                // Custom AppBar
+                Container(
+                  padding: EdgeInsets.all(padding),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: isDarkMode
+                          ? [Colors.black87, Colors.blueGrey.shade900]
+                          : [Colors.deepPurple.shade700, Colors.deepPurple.shade900],
+                    ),
+                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(0,0,0,0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          if (await _showExitConfirmationDialog()) Navigator.pop(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(padding * 0.5),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDarkMode ? Colors.grey.shade800 : Colors.white,
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            color: isDarkMode ? Colors.tealAccent : Colors.deepPurple,
+                            size: fontSize * 0.8,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: Text(
+                            widget.title,
+                            key: ValueKey(widget.title),
+                            style: TextStyle(
+                              fontSize: fontSize * 0.8,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: padding * 2),
+                    ],
+                  ),
+                ),
+                // Attempts Indicator
+                Padding(
+                  padding: EdgeInsets.all(padding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: List.generate(
+                      _maxWrongAttempts,
+                          (index) => Icon(
+                        index < _wrongAnswerCount ? Icons.close : Icons.favorite,
+                        color: index < _wrongAnswerCount ? Colors.red : Colors.red,
+                        size: fontSize * 0.6,
+                      ),
+                    ),
+                  ),
+                ),
+                // Main Content
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Padding(
+                          padding: EdgeInsets.all(padding),
+                          child: Column(
+                            children: [
+                              if (number1 != null) _buildProblemBox(context),
+                              Padding(
+                                padding: EdgeInsets.all(padding),
+                                child: GestureDetector(
+                                  onTap: _submitAnswer,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: padding,
+                                      horizontal: padding,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isDarkMode ? Colors.tealAccent : Colors.deepPurple,
+                                      borderRadius: BorderRadius.circular(100),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5,
+                                          offset: Offset(2, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Image.asset(
+                                      'assets/icons/next.png',
+                                      width: fontSize * 0.8,
+                                      height: fontSize * 0.8,
+                                      color: isDarkMode ? Colors.black : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  //#endregion
+
 }

@@ -116,7 +116,10 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
   //#region Page UI
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     final operations = getOperations();
+
     return Theme(
       data: _themeData,
       child: Scaffold(
@@ -142,18 +145,17 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
           child: SafeArea(
             child: Column(
               children: [
-                // Custom App Bar
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenHeight * 0.015),
                   child: Row(
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 255, 255, 0.2),
-                          borderRadius: BorderRadius.circular(12),
+                          color: Color.fromRGBO(255,255,255,0.2),
+                          borderRadius: BorderRadius.circular(screenWidth * 0.03),
                         ),
                         child: IconButton(
-                          icon: Icon(Icons.arrow_back_ios_rounded, color: themeProvider.isNightModeOn ? Colors.white :Colors.black),
+                          icon: Icon(Icons.chevron_left_rounded, size: screenWidth * 0.06, color: themeProvider.isNightModeOn ? Colors.white : Colors.black),
                           onPressed: () => Navigator.pop(context),
                         ),
                       ),
@@ -162,10 +164,10 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                           child: Text(
                             'Math Fun!',
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: screenWidth * 0.065,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'ComicSans',
-                              color: themeProvider.isNightModeOn ? Colors.white :Colors.black,
+                              color: themeProvider.isNightModeOn ? Colors.white : Colors.black,
                               shadows: [
                                 Shadow(
                                   color: Colors.black38,
@@ -177,57 +179,55 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
-
                 // Header with grade info
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.02),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.015),
                   decoration: BoxDecoration(
-                    color:themeProvider.isNightModeOn ? Color.fromRGBO(255, 255, 255, 0.5) :Color.fromRGBO(0,0,0,0.3),
-                    borderRadius: BorderRadius.circular(16),
+                    color: themeProvider.isNightModeOn ? Color.fromRGBO(255,255,255,0.5) : Color.fromRGBO(0,0,0,0.3),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.04),
                     border: Border.all(
-                      color: Color.fromRGBO(255, 255, 255, 0.2),
+                      color: Color.fromRGBO(255,255,255,0.2),
                       width: 1,
                     ),
                   ),
                   child: Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(12),
+                        padding: EdgeInsets.all(screenWidth * 0.03),
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 255, 255, 0.2),
+                          color: Color.fromRGBO(255,255,255,0.2),
                           shape: BoxShape.circle,
                         ),
                         child: Text(
                           "${widget.gradeNumber}",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: screenWidth * 0.045,
                             fontWeight: FontWeight.bold,
-                            color: themeProvider.isNightModeOn ? Colors.white :Colors.black ,
+                            color: themeProvider.isNightModeOn ? Colors.white : Colors.black,
                           ),
                         ),
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: screenWidth * 0.03),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Grade ${widget.gradeNumber}",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: screenWidth * 0.045,
                               fontWeight: FontWeight.bold,
-                              color:  themeProvider.isNightModeOn ? Colors.white :Colors.black
+                              color: themeProvider.isNightModeOn ? Colors.white : Colors.black,
                             ),
                           ),
                           Text(
                             "Let's practice math skills!",
                             style: TextStyle(
-                              fontSize: 14,
-                              color: themeProvider.isNightModeOn ? Colors.white :Colors.black
+                              fontSize: screenWidth * 0.035,
+                              color: themeProvider.isNightModeOn ? Colors.white : Colors.black,
                             ),
                           ),
                         ],
@@ -235,6 +235,7 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
                     ],
                   ),
                 ),
+
 
                 Expanded(
                   child: AnimatedBuilder(
@@ -307,14 +308,14 @@ class _MathOperationsPageState extends State<MathOperationsPage> with SingleTick
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [color.withOpacity(0.8), color],
+                  colors: [Color.fromRGBO(color.red, color.green, color.blue,0.8), color],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: color.withOpacity(0.3),
+                    color: Color.fromRGBO(color.red, color.green, color.blue, 0.3),
                     blurRadius: 10,
                     offset: Offset(0, 4),
                   ),

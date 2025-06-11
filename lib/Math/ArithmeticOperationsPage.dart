@@ -94,6 +94,24 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Container(
+          margin: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: isDarkMode
+                ? Color.fromRGBO(255,255,255,0.2)
+                : Color.fromRGBO(255,255,255,0.2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+              size: 20,
+            ),
+            onPressed: () => Navigator.pop(context),
+            splashRadius: 20,
+          ),
+        ),
         iconTheme: IconThemeData(
           color: themeProvider.isNightModeOn
               ? Color.fromRGBO(255,255,255,0.8)
@@ -194,36 +212,59 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
           statusBarIconBrightness: Brightness.light,
         ),
       ),
-      body: Stack(
-        children: [
-          WaveBackground(isDarkMode: isDarkMode),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _filterController,
-                  decoration: InputDecoration(
-                    labelText: "Search",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            WaveBackground(isDarkMode: isDarkMode),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _filterController,
+                    decoration: InputDecoration(
+                      labelText: "Search",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      prefixIcon: const Icon(Icons.search),
                     ),
-                    prefixIcon: const Icon(Icons.search),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: filteredOperations.length,
-                  itemBuilder: (context, index) {
-                    final operation = filteredOperations[index];
-                    return _buildCard(context, operation);
-                  },
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final isTablet = constraints.maxWidth > 600;
+                      return isTablet
+                          ? GridView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 3.5,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                        ),
+                        itemCount: filteredOperations.length,
+                        itemBuilder: (context, index) {
+                          final operation = filteredOperations[index];
+                          return _buildCard(context, operation);
+                        },
+                      )
+                          : ListView.builder(
+                        itemCount: filteredOperations.length,
+                        itemBuilder: (context, index) {
+                          final operation = filteredOperations[index];
+                          return _buildCard(context, operation);
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+        
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -279,14 +320,14 @@ class _OperationsPageState extends State<ArithmeticOperationsPage> {
             );
           },
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width > 600 ? 20 : 16),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
                     operation["title"],
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: MediaQuery.of(context).size.width > 600 ? 18 : 16,
                       fontWeight: FontWeight.w500,
                       color: isDarkMode ? Colors.white : Colors.black87,
                     ),
@@ -353,7 +394,7 @@ class _WaveBackgroundState extends State<WaveBackground> with SingleTickerProvid
       top: 0,
       left: 0,
       right: 0,
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.width > 600 ? 250 : MediaQuery.of(context).size.height * 0.35,
       child: Stack(
         children: [
           ClipPath(
