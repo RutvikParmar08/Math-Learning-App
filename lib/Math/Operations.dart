@@ -207,7 +207,38 @@ class Operations{
           };
         },
       },
-
+      {
+        "title": "Add Three-Digit Numbers Without Regrouping",
+        "Grade": 3,
+        "generateNumbers": () {
+          int num1 = Random().nextInt(900) + 100;
+          int num2 = Random().nextInt(900) + 100;
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": null,
+            "number4": null,
+            "result": num1 + num2,
+            "sign": "+",
+          };
+        },
+      },
+      {
+        "title": "Add Three-Digit Numbers With Regrouping",
+        "Grade": 3,
+        "generateNumbers": () {
+          int num1 = Random().nextInt(900) + 100;
+          int num2 = Random().nextInt(900) + 100;
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": null,
+            "number4": null,
+            "result": num1 + num2,
+            "sign": "+",
+          };
+        },
+      },
       {
         "title": "Addition of Three 3-Digit Numbers",
         "Grade": 3,
@@ -245,38 +276,7 @@ class Operations{
           };
         },
       },
-      {
-        "title": "Add Three-Digit Numbers Without Regrouping",
-        "Grade": 3,
-        "generateNumbers": () {
-          int num1 = Random().nextInt(900) + 100;
-          int num2 = Random().nextInt(900) + 100;
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": null,
-            "number4": null,
-            "result": num1 + num2,
-            "sign": "+",
-          };
-        },
-      },
-      {
-        "title": "Add Three-Digit Numbers With Regrouping",
-        "Grade": 3,
-        "generateNumbers": () {
-          int num1 = Random().nextInt(900) + 100;
-          int num2 = Random().nextInt(900) + 100;
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": null,
-            "number4": null,
-            "result": num1 + num2,
-            "sign": "+",
-          };
-        },
-      },
+
       {
         "title": "Add Two 4-Digit Numbers",
         "Grade": 3,
@@ -358,6 +358,94 @@ class Operations{
         },
       },
       {
+        "title": "Add Two Four-Digit Numbers",
+        "Grade": 4,
+        "generateNumbers": () {
+          int num1 = Random().nextInt(9000) + 1000;
+          int num2 = Random().nextInt(9000) + 1000;
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": null,
+            "number4": null,
+            "result": num1 + num2,
+            "sign": "+",
+          };
+        },
+      },
+      {
+        "Grade": 4,
+        "title": "Addition of Three 4-Digit Numbers",
+        "generateNumbers": () {
+          int num1 = Random().nextInt(9000) + 1000;
+          int num2 = Random().nextInt(9000) + 1000;
+          int num3 = Random().nextInt(9000) + 1000;
+          int result = num1 + num2 + num3;
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": num3,
+            "number4": null,
+            "result": result,
+            "sign": "+",
+          };
+        },
+      },
+      {
+        "title": "Addition of Four 4-Digit Numbers",
+        "Grade": 4,
+        "generateNumbers": () {
+          int num1 = Random().nextInt(9000) + 1000;
+          int num2 = Random().nextInt(9000) + 1000;
+          int num3 = Random().nextInt(9000) + 1000;
+          int num4 = Random().nextInt(9000) + 1000;
+          int result = num1 + num2 + num3 + num4;
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": num3,
+            "number4": num4,
+            "result": result,
+            "sign": "+",
+          };
+        },
+      },
+
+      {
+        "title": "Add Three Four-Digit Numbers",
+        "Grade": 4,
+        "generateNumbers": () {
+          int num1 = Random().nextInt(9000) + 1000;
+          int num2 = Random().nextInt(9000) + 1000;
+          int num3 = Random().nextInt(9000) + 1000;
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": num3,
+            "number4": null,
+            "result": num1 + num2 + num3,
+            "sign": "+",
+          };
+        },
+      },
+      {
+        "title": "Add Three Numbers Each Up to Four Digits",
+        "Grade": 4,
+        "generateNumbers": () {
+          int num1 = Random().nextInt(10000);
+          int num2 = Random().nextInt(10000);
+          int num3 = Random().nextInt(10000);
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": num3,
+            "number4": null,
+            "result": num1 + num2 + num3,
+            "sign": "+",
+          };
+        },
+      },
+      {
         "title": "Multi-Digit Addition",
         "Grade": 4,
         "generateNumbers": () {
@@ -428,93 +516,7 @@ class Operations{
           };
         },
       },
-      {
-        "Grade": 4,
-        "title": "Addition of Three 4-Digit Numbers",
-        "generateNumbers": () {
-          int num1 = Random().nextInt(9000) + 1000;
-          int num2 = Random().nextInt(9000) + 1000;
-          int num3 = Random().nextInt(9000) + 1000;
-          int result = num1 + num2 + num3;
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": num3,
-            "number4": null,
-            "result": result,
-            "sign": "+",
-          };
-        },
-      },
-      {
-        "title": "Addition of Four 4-Digit Numbers",
-        "Grade": 4,
-        "generateNumbers": () {
-          int num1 = Random().nextInt(9000) + 1000;
-          int num2 = Random().nextInt(9000) + 1000;
-          int num3 = Random().nextInt(9000) + 1000;
-          int num4 = Random().nextInt(9000) + 1000;
-          int result = num1 + num2 + num3 + num4;
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": num3,
-            "number4": num4,
-            "result": result,
-            "sign": "+",
-          };
-        },
-      },
-      {
-        "title": "Add Two Four-Digit Numbers",
-        "Grade": 4,
-        "generateNumbers": () {
-          int num1 = Random().nextInt(9000) + 1000;
-          int num2 = Random().nextInt(9000) + 1000;
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": null,
-            "number4": null,
-            "result": num1 + num2,
-            "sign": "+",
-          };
-        },
-      },
-      {
-        "title": "Add Three Four-Digit Numbers",
-        "Grade": 4,
-        "generateNumbers": () {
-          int num1 = Random().nextInt(9000) + 1000;
-          int num2 = Random().nextInt(9000) + 1000;
-          int num3 = Random().nextInt(9000) + 1000;
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": num3,
-            "number4": null,
-            "result": num1 + num2 + num3,
-            "sign": "+",
-          };
-        },
-      },
-      {
-        "title": "Add Three Numbers Each Up to Four Digits",
-        "Grade": 4,
-        "generateNumbers": () {
-          int num1 = Random().nextInt(10000);
-          int num2 = Random().nextInt(10000);
-          int num3 = Random().nextInt(10000);
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": num3,
-            "number4": null,
-            "result": num1 + num2 + num3,
-            "sign": "+",
-          };
-        },
-      },
+
 
       {
         "title": "Complex Number Addition",
@@ -612,8 +614,7 @@ class Operations{
         }
       },
       {
-        "title":
-        "Subtract a 1-Digit Number from 2-Digit Number Without Borrowing",
+        "title": "Subtract a 1-Digit Number from 2-Digit Number Without Borrowing",
         "Grade": 1,
         "generateNumbers": () {
           int num1 = Random().nextInt(90) + 10;
@@ -641,6 +642,22 @@ class Operations{
           if ((num1 % 10) < (num2 % 10)) {
             num1 += 10;
           }
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": null,
+            "number4": null,
+            "result": num1 - num2,
+            "sign": "-",
+          };
+        },
+      },
+      {
+        "title": "Subtraction with Borrowing Over Three Zeros",
+        "Grade": 1,
+        "generateNumbers": () {
+          int num1 = 1000; // Force leading zeros
+          int num2 = Random().nextInt(900) + 100;
           return {
             "number1": num1,
             "number2": num2,
@@ -713,8 +730,7 @@ class Operations{
         },
       },
       {
-        "title":
-        "Subtract a 1-Digit Number from 2-Digit Number With Borrowing for 3-Digit",
+        "title": "Subtract a 1-Digit Number from 2-Digit Number With Borrowing for 3-Digit",
         "Grade": 2,
         "generateNumbers": () {
           int num1 = Random().nextInt(900) + 100; // Three-digit number
@@ -749,6 +765,28 @@ class Operations{
             "number4": null,
             "result": num1 - num2,
             "sign": "-",
+          };
+        },
+      },
+      {
+        "title": "Subtraction of Whole Hundreds",
+        "Grade": 2,
+        "generateNumbers": () {
+          int num1 = (Random().nextInt(10) + 1) * 100;
+          int num2 = (Random().nextInt(10) + 1) * 100;
+          if (num1 < num2) {
+            int temp = num1;
+            num1 = num2;
+            num2 = temp;
+          }
+          int result = num1 - num2;
+          return {
+            "number1": num1,
+            "number2": num2,
+            "number3": null,
+            "number4": null,
+            "result": result,
+            "sign": "+",
           };
         },
       },
@@ -846,22 +884,7 @@ class Operations{
         },
       },
 
-      {
-        "title": "Subtraction with Borrowing Over Three Zeros",
-        "Grade": 1,
-        "generateNumbers": () {
-          int num1 = 1000; // Force leading zeros
-          int num2 = Random().nextInt(900) + 100;
-          return {
-            "number1": num1,
-            "number2": num2,
-            "number3": null,
-            "number4": null,
-            "result": num1 - num2,
-            "sign": "-",
-          };
-        },
-      },
+
       {
         "title": "Subtract Two Numbers up to 5-Digits",
         "Grade": 4,

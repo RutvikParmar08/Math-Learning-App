@@ -519,7 +519,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
           final isDarkMode = Theme.of(context).brightness == Brightness.dark;
           final bool isWinner = score >= levelScore * 0.4;
           final screenWidth = MediaQuery.of(context).size.width;
-          final fontSize = screenWidth * 0.045;
+          final fontSize = screenWidth * 0.050;
 
           return Dialog(
             backgroundColor: Colors.transparent,
@@ -1037,8 +1037,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final fontSize = screenWidth * 0.045;
-    final padding = screenWidth * 0.05;
+    final fontSize = screenWidth * 0.050;
+    final padding = screenWidth * 0.052;
 
     return Scaffold(
       body: SafeArea(
@@ -1091,7 +1091,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                 child: Text(
                                   widget.title,
                                   style: TextStyle(
-                                    fontSize: fontSize * 0.9,
+                                    fontSize: fontSize * 1.1,
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMode
@@ -1112,7 +1112,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                         Container(
                           margin: EdgeInsets.only(top: screenWidth * 0.1),
                           padding: EdgeInsets.symmetric(
-                            horizontal: padding * 1.5,
+                            horizontal: padding * 1.4,
                             vertical: padding,
                           ),
                           decoration: BoxDecoration(
@@ -1132,7 +1132,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                         : Color.fromRGBO(233, 30, 99, 0.2), //Pink
 
                                 blurRadius: screenWidth * 0.03,
-                                offset: Offset(0, screenWidth * 0.015),
+                                offset: Offset(0, screenWidth * 0.018),
                               ),
                             ],
                           ),
@@ -1147,7 +1147,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                   Text(
                                     'Level- ${widget.level}',
                                     style: TextStyle(
-                                      fontSize: fontSize * 0.7,
+                                      fontSize: fontSize * 0.8,
                                       fontWeight: FontWeight.bold,
                                       color:
                                           isDarkMode
@@ -1170,7 +1170,8 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                               isDarkMode
                                                   ? Colors.white
                                                   : Colors.black,
-                                          fontSize: fontSize * 0.7,
+                                          fontSize: fontSize * 0.8,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
@@ -1187,7 +1188,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                       Text(
                                         '$currentQuestion/',
                                         style: TextStyle(
-                                          fontSize: fontSize * 0.8,
+                                          fontSize: fontSize * 0.9,
                                           fontWeight: FontWeight.bold,
                                           color:
                                               isDarkMode
@@ -1198,7 +1199,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                       Text(
                                         '10',
                                         style: TextStyle(
-                                          fontSize: fontSize * 0.7,
+                                          fontSize: fontSize * 0.8,
                                           fontWeight: FontWeight.w100,
                                           color:
                                               isDarkMode
@@ -1225,7 +1226,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                                   isDarkMode
                                                       ? Colors.white
                                                       : Colors.black,
-                                              fontSize: fontSize * 0.7,
+                                              fontSize: fontSize * .7,
                                             ),
                                           ),
                                         ],
@@ -1282,7 +1283,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                           isDarkMode
                                               ? Colors.pink[300]
                                               : Colors.pink,
-                                      size: fontSize * 1.2,
+                                      size: fontSize * 1.3,
                                     ),
                                   ),
                                 ),
@@ -1296,13 +1297,13 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                           right: 0,
                           child: Center(
                             child: Container(
-                              width: screenWidth * 0.2,
-                              height: screenWidth * 0.2,
+                              width: screenWidth * 0.18,
+                              height: screenWidth * 0.18,
                               decoration: BoxDecoration(
                                 color:
                                     isDarkMode
                                         ? Colors.grey[700]
-                                        : Colors.white,
+                                        : Colors.white54,
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
@@ -1374,18 +1375,16 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                     screenWidth * 0.03,
                                   ),
                                 ),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Text(
-                                    firstNumber.toString(),
-                                    style: TextStyle(
-                                      fontSize: fontSize * 0.9,
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          isDarkMode
-                                              ? Colors.white
-                                              : Colors.black,
-                                    ),
+                                child: Text(
+                                  firstNumber.toString(),
+                                  style: TextStyle(
+                                    fontSize: fontSize * 0.95,
+                                    fontWeight: FontWeight.bold,
+
+                                    color:
+                                        isDarkMode
+                                            ? Colors.white
+                                            : Colors.black,
                                   ),
                                 ),
                               )
@@ -1416,9 +1415,9 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: 2,
-                        mainAxisSpacing: screenWidth * 0.05,
-                        crossAxisSpacing: screenWidth * 0.05,
-                        childAspectRatio: screenWidth / (screenHeight * 0.15),
+                        mainAxisSpacing: screenWidth * 0.055,
+                        crossAxisSpacing: screenWidth * 0.055,
+                        childAspectRatio: screenWidth / (screenHeight * 0.2),
                         children:
                             answers.asMap().entries.map((entry) {
                               final answer = entry.value;
@@ -1445,7 +1444,7 @@ class _SoloPlayerState extends State<SoloPlayerGame> {
                                   child: Text(
                                     '$answer',
                                     style: TextStyle(
-                                      fontSize: fontSize * 0.9,
+                                      fontSize: fontSize * 1.2,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),

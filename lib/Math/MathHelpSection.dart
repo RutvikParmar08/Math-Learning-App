@@ -810,7 +810,7 @@ class MathHelpSection {
             '''       4\n      _____\n2469 ) 9876\n      -9876\n     ------\n       0\n\nAnswer: 9876 ÷ 2469 = 4''',
       },
       {
-        'Grade': 4,
+        'Grade': 5,
         'title': 'Dividing Two 5-Digit Numbers',
         'description':
             'Use long division to divide a five-digit number by another five-digit number, working digit by digit and handling remainders.',

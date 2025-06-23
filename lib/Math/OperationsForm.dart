@@ -89,9 +89,9 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
     final isComplexProblem = widget.title == "Complex Number Addition";
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final fontSize = screenWidth * 0.06; // Responsive font size
-    final containerWidth = screenWidth * 0.9; // Responsive container width
-    final textFieldWidth = screenWidth * 0.25; // Responsive TextField width
+    final fontSize = screenWidth * 0.08; // Responsive font size
+    final containerWidth = screenWidth * 1.2; // Responsive container width
+    final textFieldWidth = screenWidth * 0.40; // Responsive TextField width
 
     return AnimatedBuilder(
       animation: _animationController,
@@ -190,9 +190,12 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                  ),
                   _buildFractionDisplay(number1, fontSize, screenWidth),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                     child: Text(
                       sign ?? "+",
                       style: TextStyle(
@@ -215,7 +218,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                     ),
                   ),
                   SizedBox(
-                    width: textFieldWidth * 0.8,
+                    width: textFieldWidth * 0.7,
                     child: TextField(
                       controller: _answerController,
                       decoration: const InputDecoration(
@@ -224,7 +227,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                         hintStyle: TextStyle(color: Colors.white54),
                       ),
                       style: TextStyle(
-                        fontSize: fontSize * 0.8,
+                        fontSize: fontSize * 0.9,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -376,7 +379,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
           ),
         ),
         Container(
-          width: screenWidth * 0.12,
+          width: screenWidth * 0.20,
           height: 2,
           color: Colors.white,
         ),
@@ -517,7 +520,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
         // Auto-dismiss after 1 second
         Future.delayed(const Duration(seconds: 2), () {
           if (mounted && Navigator.of(context).canPop()) {
-            Navigator.pop(context);
+            // Navigator.pop(context);
             if (isValid) {
               _generateNumbers();
               _answerController.clear();
@@ -556,19 +559,19 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
               isValid
                   ? Image.asset(
                 'assets/Gif/happy5.gif',
-                height: screenWidth * 0.25,
-                width: screenWidth * 0.25,
+                height: screenWidth * 0.30,
+                width: screenWidth * 0.30,
               )
                   : Image.asset(
                 'assets/Gif/wrong.gif',
-                height: screenWidth * 0.25,
-                width: screenWidth * 0.25,
+                height: screenWidth * 0.30,
+                width: screenWidth * 0.30,
               ),
               SizedBox(height: screenWidth * 0.05),
               Text(
                 isValid ? 'Great job!' : 'Try again!',
                 style: TextStyle(
-                  fontSize: screenWidth * 0.045,
+                  fontSize: screenWidth * 0.050,
                   color: isDarkMode ? Colors.white : Colors.black87,
                 ),
                 textAlign: TextAlign.center,
@@ -704,7 +707,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                 style: TextStyle(
                   color: isDarkMode ? Colors.red[300] : Colors.red[600],
                   fontWeight: FontWeight.bold,
-                  fontSize: screenWidth * 0.045,
+                  fontSize: screenWidth * 0.050,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -712,7 +715,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
               Text(
                 "Are you sure you want to leave?",
                 style: TextStyle(
-                  fontSize: screenWidth * 0.04,
+                  fontSize: screenWidth * 0.045,
                   color: isDarkMode ? Colors.white : Colors.black87,
                 ),
                 textAlign: TextAlign.center,
@@ -733,7 +736,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                       "Cancel",
                       style: TextStyle(
                         color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
-                        fontSize: screenWidth * 0.04,
+                        fontSize: screenWidth * 0.045,
                       ),
                     ),
                   ),
@@ -753,7 +756,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                     ),
                     child: Text(
                       "Leave",
-                      style: TextStyle(fontSize: screenWidth * 0.04),
+                      style: TextStyle(fontSize: screenWidth * 0.045),
                     ),
                   ),
                 ],
@@ -771,7 +774,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
   Widget build(BuildContext context) {
     final isDarkMode = Provider.of<ThemeProvider>(context).isNightModeOn;
     final screenWidth = MediaQuery.of(context).size.width;
-    final fontSize = screenWidth * 0.06;
+    final fontSize = screenWidth * 0.08;
     final padding = screenWidth * 0.04;
 
     return SafeArea(
@@ -866,7 +869,7 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                           (index) => Icon(
                         index < _wrongAnswerCount ? Icons.close : Icons.favorite,
                         color: index < _wrongAnswerCount ? Colors.red : Colors.red,
-                        size: fontSize * 0.6,
+                        size: fontSize * 1.3,
                       ),
                     ),
                   ),
@@ -904,8 +907,8 @@ class _OperationsFormState extends State<OperationsForm> with SingleTickerProvid
                                     ),
                                     child: Image.asset(
                                       'assets/icons/next.png',
-                                      width: fontSize * 0.8,
-                                      height: fontSize * 0.8,
+                                      width: fontSize * 1.3,
+                                      height: fontSize * 1.3,
                                       color: isDarkMode ? Colors.black : Colors.white,
                                     ),
                                   ),
